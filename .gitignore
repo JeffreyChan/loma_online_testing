@@ -1,0 +1,6 @@
+# Dependency directory
+node_modules/
+typings/
+.DS_Store
+# Environment variables
+.env

@@ -1,0 +1,21 @@
+{
+  "name": "LOMA_Online_Testing",
+  "version": "0.0.0",
+  "private": true,
+  "main": "lib/index.js",
+  "author": "jeffreychan",
+  "dependencies": {
+    "body-parser": "~1.13.2",
+    "cookie-parser": "~1.3.5",
+    "debug": "~2.2.0",
+    "express": "~4.13.1",
+    "gulp": "^3.9.1",
+    "gulp-nodemon": "^2.0.7",
+    "gulp-strip-debug": "^1.1.0",
+    "gulp-tsc": "^1.1.5",
+    "gulp-typescript-compiler": "^1.0.1",
+    "method-override": "^2.3.5",
+    "mongoose": "^4.4.17",
+    "morgan": "~1.6.1"
+  }
+}
