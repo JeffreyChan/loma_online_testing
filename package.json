@@ -1,5 +1,5 @@
 {
-  "name": "LOMA_Online_Testing",
+  "name": "loma_online_testing",
   "version": "0.0.0",
   "private": true,
   "main": "lib/index.js",
@@ -17,5 +17,10 @@
     "method-override": "^2.3.5",
     "mongoose": "^4.4.17",
     "morgan": "~1.6.1"
+  },
+  "homepage": "https://github.com/JeffreyChan/loma_online_testing#readme",
+   "repository": {
+    "type": "git",
+    "url": "https://github.com/JeffreyChan/loma_online_testing.git"
   }
 }
