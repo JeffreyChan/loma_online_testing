@@ -11,12 +11,13 @@ var ServiceBase = require("./ServiceBase");
 
 var CategoryService = (function (_super) {
     __extends(CategoryService, _super);
-    function CategoryService() {
-        _super.call(this, new CategoryRepository());
+    function CategoryService(categoryRep) {
+        if (typeof categoryRep === "undefined") { categoryRep = new CategoryRepository(); }
+        _super.call(this, categoryRep);
+        this._categoryRep = categoryRep;
     }
     CategoryService.prototype.getRootCategory = function (isAppendChild, callback) {
-        var repository = this._repository;
-        repository.getRootCategory(isAppendChild, callback);
+        this._categoryRep.getRootCategory(isAppendChild, callback);
     };
     return CategoryService;
 })(ServiceBase);

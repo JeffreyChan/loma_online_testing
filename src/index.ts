@@ -1,8 +1,9 @@
 /// <reference path="./../typings/tsd.d.ts" />
 
 
+
 import express = require("express");
-import Middlewares = require("./presentation/app_api/config/middlewares/MiddlewaresBase");
+import Middlewares = require("./presentation/app_api/middlewares/MiddlewaresBase");
 
 var app = express();
 var port = parseInt(process.env.PORT, 10) || 3000;
@@ -12,3 +13,4 @@ app.use(Middlewares.configuration);
 app.listen(port, () => {
     console.log("Node app is running at localhost:" + port);
 });
+

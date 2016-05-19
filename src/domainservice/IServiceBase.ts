@@ -1,4 +1,6 @@
-interface IServiceBase<T> {
+import IEnityModel = require("./../domainmodel/IEntityModel");
+
+interface IServiceBase<T extends IEnityModel> {
     /*
      read operation
  */

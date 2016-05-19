@@ -7,7 +7,6 @@ var RoutesBase = (function () {
     }
     Object.defineProperty(RoutesBase.prototype, "routes", {
         get: function () {
-            console.log("hello there");
             app.use("/api", new CategoryRoutes().routes);
             return app;
         },

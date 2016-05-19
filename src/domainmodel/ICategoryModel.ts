@@ -1,6 +1,6 @@
-import mongoose = require("mongoose");
+import IEntityModel = require("./IEntityModel");
 
-interface ICategoryModel extends mongoose.Document {
+interface ICategoryModel extends IEntityModel {
     name: string;
     desc: string;
     parent: any;

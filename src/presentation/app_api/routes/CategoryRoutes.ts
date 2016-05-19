@@ -1,5 +1,5 @@
 import express = require("express");
-import CategoryController = require("./.././../controllers/CategoryController");
+import CategoryController = require("./.././controllers/CategoryController");
 
 var router = express.Router();
 class CategoryRoutes {
@@ -11,7 +11,7 @@ class CategoryRoutes {
     get routes () {
        
         router.post("/category", this._controller.create);
-        router.get("/category/:_id", this._controller.findById);
+        router.get("/category/:id", this._controller.findById);
 /*         router.get("/heroes", this._controller.retrieve);
         router.put("/heroes/:_id", this._controller.update);
         

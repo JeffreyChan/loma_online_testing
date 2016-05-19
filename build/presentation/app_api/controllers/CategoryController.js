@@ -9,8 +9,10 @@ var CategoryService = require("./../../../domainservice/CategoryService");
 
 var CategoryController = (function (_super) {
     __extends(CategoryController, _super);
-    function CategoryController() {
-        _super.call(this, new CategoryService());
+    function CategoryController(catService) {
+        if (typeof catService === "undefined") { catService = new CategoryService(); }
+        _super.call(this, catService);
+        this._catService = catService;
     }
     return CategoryController;
 })(ControllerBase);

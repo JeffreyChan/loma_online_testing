@@ -8,11 +8,13 @@ import ControllerBase = require("./ControllerBase");
 import CategoryService = require("./../../../domainservice/CategoryService");
 
 class CategoryController extends ControllerBase<ICategoryModel> implements ICategoryController {
-    
-    constructor() {
-        super(new CategoryService());
-        
-    } 
+    private _catService: ICategoryService;
+
+    constructor();
+    constructor(catService: ICategoryService = new CategoryService()) {
+        super(catService);
+        this._catService = catService;
+    }
 }
 
 Object.seal(CategoryController);

@@ -7,14 +7,16 @@ import ICategoryService = require("./ICategoryService");
 import ICategoryModel = require("./../domainmodel/ICategoryModel");
 
 class CategoryService extends ServiceBase<ICategoryModel> implements ICategoryService {
-
-    constructor() {
-        super(new CategoryRepository());
-    }  
+    private _categoryRep: ICategoryRepository;
     
-    getRootCategory(isAppendChild: boolean, callback: (error: any, result: any) => void){
-        var repository = <ICategoryRepository<ICategoryModel>>this._repository;
-        repository.getRootCategory(isAppendChild, callback);
+    constructor();
+    constructor(categoryRep: ICategoryRepository = new CategoryRepository()) {
+        super(categoryRep);
+        this._categoryRep = categoryRep;
+    }
+
+    getRootCategory(isAppendChild: boolean, callback: (error: any, result: any) => void) {
+        this._categoryRep.getRootCategory(isAppendChild, callback);
     }
 }
 

@@ -1,5 +1,5 @@
 var express = require("express");
-var CategoryController = require("./.././../controllers/CategoryController");
+var CategoryController = require("./.././controllers/CategoryController");
 
 var router = express.Router();
 var CategoryRoutes = (function () {
@@ -9,7 +9,7 @@ var CategoryRoutes = (function () {
     Object.defineProperty(CategoryRoutes.prototype, "routes", {
         get: function () {
             router.post("/category", this._controller.create);
-            router.get("/category/:_id", this._controller.findById);
+            router.get("/category/:id", this._controller.findById);
 
             /*         router.get("/heroes", this._controller.retrieve);
             router.put("/heroes/:_id", this._controller.update);

@@ -1,5 +1,5 @@
 var Mongoose = require("mongoose");
-var Constants = require("./../presentation/app_api/config/constants/Constants");
+var Constants = require("./../presentation/app_api/config/Constants");
 
 var DataAccess = (function () {
     function DataAccess() {

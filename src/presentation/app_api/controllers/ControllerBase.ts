@@ -1,9 +1,10 @@
 import express = require("express");
 import IServiceBase = require("./../../../domainservice/IServiceBase.ts");
+import ServiceBase = require("./../../../domainservice/ServiceBase.ts");
+import IEnityModel = require("./../../../domainmodel/IEntityModel");
 
-class ControllerBase<T>{
-    protected _service: IServiceBase<T>;
-
+class ControllerBase<T extends IEnityModel>{
+    private _service: IServiceBase<T>;
     constructor(service) {
         this._service = service;
     }
@@ -29,11 +30,13 @@ class ControllerBase<T>{
 
     findById(req: express.Request, res: express.Response): void {
         try {
-
-            var _id: string = req.params._id;
-            this._service.findById(_id, (error, result) => {
+            
+            var catId: string = req.params.id;
+            console.log("test here:");
+            console.log(JSON.stringify(this));
+            this._service.findById(catId, (error, result) => {
                 if (error) {
-                    res.send({ "error": "error" });
+                    res.send({ "error": error });
                 }
                 else {
                     res.send(result);

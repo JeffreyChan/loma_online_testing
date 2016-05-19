@@ -5,10 +5,10 @@
             "name": "Launch",
             "type": "node",
             "request": "launch",
-            "program": "index.js",
+            "program": "${workspaceRoot}/build/index.js",
             "stopOnEntry": false,
             "args": [],
-            "cwd": ".",
+            "cwd": "${workspaceRoot}",
             "runtimeExecutable": null,
             "runtimeArgs": [
                 "--nolazy"
@@ -24,7 +24,7 @@
             "name": "Attach",
             "type": "node",
             "request": "attach",
-            "port": 5858
+            "port": 3000
         }
     ]
 }

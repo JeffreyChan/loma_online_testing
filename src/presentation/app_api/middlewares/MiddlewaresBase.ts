@@ -6,7 +6,7 @@ import RoutesBase = require("./../routes/RoutesBase");
 
 
 class MiddlewaresBase {
-
+    
     static get configuration() {
         var app = express();
         app.use(bodyParser.json());

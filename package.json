@@ -16,7 +16,8 @@
     "gulp-typescript-compiler": "^1.0.1",
     "method-override": "^2.3.5",
     "mongoose": "^4.4.17",
-    "morgan": "~1.6.1"
+    "morgan": "~1.6.1",
+    "rx": "^4.1.0"
   },
   "homepage": "https://github.com/JeffreyChan/loma_online_testing#readme",
   "repository": {

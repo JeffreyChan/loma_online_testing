@@ -9,14 +9,16 @@ var RepositoryBase = require("./RepositoryBase");
 
 var CategoryRepository = (function (_super) {
     __extends(CategoryRepository, _super);
-    function CategoryRepository() {
-        _super.call(this, CategorySchema);
+    function CategoryRepository(dbcontext) {
+        if (typeof dbcontext === "undefined") { dbcontext = CategorySchema; }
+        _super.call(this, dbcontext);
+        this._dbcontext = dbcontext;
     }
     CategoryRepository.prototype.getRootCategory = function (isAppendChild, callback) {
         if (isAppendChild) {
-            this._model.find({ parent: null }).populate("childrens").exec(callback);
+            this._dbcontext.find({ parent: null }).populate("childrens").exec(callback);
         } else {
-            this._model.find({ parent: null }, callback);
+            this._dbcontext.find({ parent: null }, callback);
         }
     };
     return CategoryRepository;

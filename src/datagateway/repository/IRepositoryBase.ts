@@ -1,7 +1,8 @@
 
 import mongoose = require("mongoose");
+import IEnityModel = require("./../../domainmodel/IEntityModel");
 
-interface IRepositoryBase<T extends mongoose.Document> {
+interface IRepositoryBase<T extends IEnityModel> {
     /*
         read operation
     */
