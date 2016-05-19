@@ -18,9 +18,9 @@ gulp.task("compile", function () {
         sourcemap: false,
         logErrors: true
     }))
-    .pipe(gulp.dest("lib"));
+    .pipe(gulp.dest("build"));
 });
 
 gulp.task("nodemon", function () {
-  nodemon({ script: "lib/index.js" });
+  nodemon({ script: "build/index.js" });
 });
