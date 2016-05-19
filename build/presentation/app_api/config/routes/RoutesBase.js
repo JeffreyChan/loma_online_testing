@@ -1,15 +1,14 @@
 var express = require("express");
+var CategoryRoutes = require("./CategoryRoutes");
 
-//import HeroRoutes = require("./HeroRoutes");
-//import SpartanRoutes = require("./SpartanRoutes");
 var app = express();
 var RoutesBase = (function () {
     function RoutesBase() {
     }
     Object.defineProperty(RoutesBase.prototype, "routes", {
         get: function () {
-            /* app.use("/api", new HeroRoutes().routes);
-            app.use("/api", new SpartanRoutes().routes);*/
+            console.log("hello there");
+            app.use("/api", new CategoryRoutes().routes);
             return app;
         },
         enumerable: true,

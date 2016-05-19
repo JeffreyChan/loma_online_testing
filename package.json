@@ -19,8 +19,12 @@
     "morgan": "~1.6.1"
   },
   "homepage": "https://github.com/JeffreyChan/loma_online_testing#readme",
-   "repository": {
+  "repository": {
     "type": "git",
     "url": "https://github.com/JeffreyChan/loma_online_testing.git"
+  },
+  "devDependencies": {
+    "typescript": "^1.8.10",
+    "vscode": "^0.11.13"
   }
 }
