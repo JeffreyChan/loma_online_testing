@@ -46,11 +46,9 @@ class CategoryService extends ServiceBase<ICategoryModel> implements ICategorySe
             "error": null
         };
         if (item && item.parent) {
-            console.log("go here");
-            console.log(item.parent);
             super.findById(item.parent, (error: any, result: any) => {
                 if (error) {
-                    msg.message = "can't find parent";
+                    msg.message = "can't find parent:" + item.parent;
                     msg.statescode = 404;
                     msg.error = error;
                     callback(msg, null);
@@ -74,7 +72,7 @@ class CategoryService extends ServiceBase<ICategoryModel> implements ICategorySe
                             callback(msg, null);
                         } else {
                             //step 3 update parent child
-                            parent.childrens.push(result);
+                            parent.childrens.push(createEntity);
                             super.update(parent._id, parent, (updateError: any, updateEntity: any) => {
                                 if (updateError) {
                                     msg.message = "can't update this item:" + item.name;
