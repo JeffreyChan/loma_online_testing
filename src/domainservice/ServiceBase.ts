@@ -17,7 +17,7 @@ class ServiceBase<T extends IEnityModel> {
         this._repository.retrieve(callback);
     }
 
-    update(id: string, item: T, callback: (error: any, result: any) => void) {
+    update(id: string, item: any, callback: (error: any, result: any) => void) {
 
         this._repository.findById(id, (err, res) => {
             if (err) {
