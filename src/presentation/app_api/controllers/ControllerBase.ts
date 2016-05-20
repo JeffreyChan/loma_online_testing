@@ -82,7 +82,7 @@ class ControllerBase<T extends IEnityModel>{
         try {
 
             var entityId: string = req.params.id;
-
+            console.info("hello");
             this._service.findById(entityId, (error, result) => {
                 if (error) {
                     res.send({ "error": error });

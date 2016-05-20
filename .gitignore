@@ -2,6 +2,7 @@
 node_modules/
 typings/
 build/
+logs/
 .DS_Store
 # Environment variables
 .env

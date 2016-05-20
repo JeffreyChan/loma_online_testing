@@ -18,7 +18,8 @@
     "mongoose": "^4.4.17",
     "mongoose-unique-validator": "^1.0.2",
     "morgan": "~1.6.1",
-    "rx": "^4.1.0"
+    "rx": "^4.1.0",
+    "winston": "^2.2.0"
   },
   "homepage": "https://github.com/JeffreyChan/loma_online_testing#readme",
   "repository": {

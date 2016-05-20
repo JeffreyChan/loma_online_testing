@@ -4,15 +4,16 @@ import logger = require("morgan");
 
 import MethodOverride = require("./MethodOverride");
 import RoutesBase = require("./../routes/RoutesBase");
+var winston = require("./MiddlewaresLogger");
 
 
 class MiddlewaresBase {
 
     static get configuration() {
         var app = express();
-        app.use(logger("dev"));
         app.use(bodyParser.json());
         app.use(MethodOverride.configuration());
+        app.use(require('morgan')({ "stream": winston.stream }));
         app.use(new RoutesBase().routes);
         app.use(MiddlewaresBase.logErrors);
         app.use(MiddlewaresBase.clientErrorHandler);
