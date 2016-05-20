@@ -15,6 +15,32 @@ class CategoryController extends ControllerBase<ICategoryModel> implements ICate
         super(catService);
         this._catService = catService;
     }
+    getRootCategory(req: express.Request, res: express.Response): void{
+        
+        
+    }
+    createCategory(req: express.Request, res: express.Response): void {
+        try {
+            var item: ICategoryModel = <ICategoryModel>req.body;
+            
+            this._catService.createCategory(item, (error, result) => {
+                if (error) {
+                    res.json({ "error": error });
+                }
+                else {
+                    res.json({
+                        "success": "success",
+                        "entity": result
+                    });
+                }
+            });
+        }
+        catch (e) {
+            console.log(e);
+            res.send({ "error": "error in your request" });
+
+        }
+    }
 }
 
 Object.seal(CategoryController);

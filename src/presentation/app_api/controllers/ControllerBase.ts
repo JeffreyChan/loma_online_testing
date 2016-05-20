@@ -14,10 +14,13 @@ class ControllerBase<T extends IEnityModel>{
             var item: T = <T>req.body;
             this._service.create(item, (error, result) => {
                 if (error) {
-                    res.send({ "error": "error" });
+                    res.send({ "error": error });
                 }
                 else {
-                    res.send({ "success": "success" });
+                    res.send({
+                        "success": "success",
+                        "entity": result
+                    });
                 }
             });
         }
@@ -30,19 +33,22 @@ class ControllerBase<T extends IEnityModel>{
 
     update(req: express.Request, res: express.Response): void {
         try {
-            var entityId: string = req.params.id;            
+            var entityId: string = req.params.id;
             var item: T = <T>req.body;
-            if(Object.keys(item).length === 0 && item.constructor === Object){
-                res.json({ "error": "body can't be null or empty","statescode":500 });
+            if (Object.keys(item).length === 0 && item.constructor === Object) {
+                res.json({ "error": "body can't be null or empty", "statescode": 500 });
                 return;
             }
-           
+
             this._service.update(entityId, item, (error, result) => {
                 if (error) {
                     res.send({ "error": error });
                 }
                 else {
-                    res.send({ "success": "success" });
+                    res.send({
+                        "success": "success",
+                        "entity": result
+                    });
                 }
             });
         }
@@ -58,7 +64,7 @@ class ControllerBase<T extends IEnityModel>{
 
             this._service.remove(entityId, (error, result) => {
                 if (error) {
-                    res.send({ "error": "error" });
+                    res.send({ "error": error });
                 }
                 else {
                     res.send({ "success": "success" });
@@ -97,7 +103,7 @@ class ControllerBase<T extends IEnityModel>{
         try {
 
             this._service.retrieve((error, result) => {
-                if (error) res.send({ "error": "error" });
+                if (error) res.send({ "error": error });
                 else res.send(result);
             });
         }

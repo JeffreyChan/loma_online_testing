@@ -18,7 +18,7 @@ class RepositoryBase<T extends IEnityModel> {
         this._model.find({}, callback)
     }
 
-    update(id: string, item: T, callback: (error: any, result: any) => void) {
+    update(id: string, item: any, callback: (error: any, result: any) => void) {
         this._model.update({ _id: this.toObjectId(id) }, item, callback);
 
     }

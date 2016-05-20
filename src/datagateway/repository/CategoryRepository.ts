@@ -14,6 +14,10 @@ class CategoryRepository extends RepositoryBase<ICategoryModel> implements ICate
         this._dbcontext = dbcontext;
     }
 
+    createCategory(item: ICategoryModel, callback: (error: any, result: any) => void) {
+        this._dbcontext.create(item, callback);
+    }
+
     getRootCategory(isAppendChild: boolean, callback: (error: any, result: any) => void) {
         if (isAppendChild) {
             this._dbcontext.find({ parent: null }).populate("childrens").exec(callback);

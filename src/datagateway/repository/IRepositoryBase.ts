@@ -13,7 +13,7 @@ interface IRepositoryBase<T extends IEnityModel> {
         write operation
     */
     create: (item: T, callback: (error: any, result: any) => void) => void;
-    update: (id: string, item: T, callback: (error: any, result: any) => void) => void;
+    update: (id: string, item: any, callback: (error: any, result: any) => void) => void;
     remove: (id: string, callback: (error: any, result: any) => void) => void;
 }
 

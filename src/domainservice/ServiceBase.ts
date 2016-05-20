@@ -17,7 +17,7 @@ class ServiceBase<T extends IEnityModel> {
         this._repository.retrieve(callback);
     }
 
-    update(id: string, item: T, callback: (error: any, result: any) => void) {
+    update(id: string, item: any, callback: (error: any, result: any) => void) {
 
         this._repository.findById(id, (err, res) => {
             if (err) {
@@ -39,7 +39,24 @@ class ServiceBase<T extends IEnityModel> {
     }
 
     remove(id: string, callback: (error: any, result: any) => void) {
-        this._repository.remove(id, callback);
+        this._repository.findById(id, (err, res) => {
+            if (err) {
+                callback(err, res);
+            }
+            else {
+                if (!res) {
+                    var msg = {
+                        error: "can't find category by id:".concat(id),
+                        statescode: 404
+                    };
+                    callback(msg, null);
+                }
+                else {
+                    this._repository.remove(id, callback);
+                }
+            }
+        });
+
     }
 
     findById(id: string, callback: (error: any, result: any) => void) {

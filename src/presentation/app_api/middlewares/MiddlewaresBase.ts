@@ -14,10 +14,8 @@ class MiddlewaresBase {
         app.use(bodyParser.json());
         app.use(MethodOverride.configuration());
         app.use(new RoutesBase().routes);
-
-        console.log(app.get('env'));
-        //app.use(MiddlewaresBase.logErrors);
-        //app.use(MiddlewaresBase.clientErrorHandler);
+        app.use(MiddlewaresBase.logErrors);
+        app.use(MiddlewaresBase.clientErrorHandler);
         app.use(MiddlewaresBase.errorHandler);
         return app;
     }
