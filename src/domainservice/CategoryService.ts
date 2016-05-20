@@ -15,29 +15,6 @@ class CategoryService extends ServiceBase<ICategoryModel> implements ICategorySe
         this._categoryRep = categoryRep;
     }
 
-    /* doAddCategory(item: ICategoryModel, parent: ICategoryModel, callback: (error: any, result: any) => void) {
-         this._categoryRep.create(item, (error: any, result: any) => {
-             let msg = {
-                 "message": "",
-                 "statescode": 200,
-                 "error": null
-             }
-             if (error) {
-                 msg.message = "can't create this item:" + item.name;
-                 msg.statescode = 500;
-                 msg.error = error;
-                 callback(msg, null);
-             } else {
-                 parent.childrens.push(result);
-                 this.updateChildren(parent, callback);
-             }
-         });
-     }
- 
-     updateChildren(parent: ICategoryModel, callback: (error: any, result: any) => void) {
-         this._categoryRep.update(parent._id, parent, callback)
-     }*/
-
     createCategory(item: ICategoryModel, callback: (error: any, result: any) => void) {
         //step 1 check item has parent
         var msg = {
@@ -46,42 +23,38 @@ class CategoryService extends ServiceBase<ICategoryModel> implements ICategorySe
             "error": null
         };
         if (item && item.parent) {
-            super.findById(item.parent, (error: any, result: any) => {
-                if (error) {
+            super.findById(item.parent, (getError: any, getEntity: any) => {
+                if (getError) {
                     msg.message = "can't find parent:" + item.parent;
                     msg.statescode = 404;
-                    msg.error = error;
+                    msg.error = getError;
                     callback(msg, null);
                 }
                 else {
-                    if (!result) {
+                    if (!getEntity) {
                         msg.message = "can't find category: " + item.name;
                         msg.statescode = 404;
-                        msg.error = error;
                         callback(msg, null);
                         return;
                     }
                     //step 2 create item
-                    var parent = result;
-
-                    super.create(item, (createError: any, createEntity: any) => {
-                        if (createError) {
+                    super.create(item, (postError: any, postEntity: any) => {
+                        if (postError) {
                             msg.message = "can't create this item:" + item.name;
                             msg.statescode = 500;
-                            msg.error = createError;
+                            msg.error = postError;
                             callback(msg, null);
                         } else {
                             //step 3 update parent child
-                            parent.childrens.push(createEntity);
-                            super.update(parent._id, parent, (updateError: any, updateEntity: any) => {
-                                if (updateError) {
+                            super.update(item.parent, { $push: { childrens: postEntity._id } }, (putError: any, putEntity: any) => {
+                                if (putError) {
                                     msg.message = "can't update this item:" + item.name;
                                     msg.statescode = 500;
-                                    msg.error = updateError;
+                                    msg.error = putError;
                                     callback(msg, null);
                                 }
                                 else {
-                                    callback(null, createEntity);
+                                    callback(null, postEntity);
                                 }
                             });
                         }
@@ -94,22 +67,23 @@ class CategoryService extends ServiceBase<ICategoryModel> implements ICategorySe
         }
     }
 
-    removeCategory(id: string, callback: (error: any, result: any) => void) {
+    removeCategory(catId: string, callback: (error: any, result: any) => void) {
         var msg = {
             "message": "",
             "statescode": 200,
             "error": null
         };
-        if (id) {
-            super.findById(id, (getError: any, getEntity: any) => {
+        console.log("find category");
+        if (catId) {
+            super.findById(catId, (getError: any, getEntity: any) => {
                 if (getError) {
-                    msg.message = "can't find this item: " + id;
+                    msg.message = "can't find this item: " + catId;
                     msg.statescode = 404;
                     msg.error = getError;
                     callback(msg, null);
                 } else {
                     console.log("find category");
-                    super.remove(id, (delError: any, delEntity: any) => {
+                    super.remove(catId, (delError: any, delEntity: any) => {
                         if (delError) {
                             msg.message = "something wrong with remove this category: " + getEntity.name;
                             msg.statescode = 400;
@@ -117,19 +91,17 @@ class CategoryService extends ServiceBase<ICategoryModel> implements ICategorySe
                             callback(msg, null);
                         }
                         else {
-                            console.log("remove category");
                             if (getEntity.parent) {
                                 var parentId = getEntity.parent;
-                                super.update(parentId, { $pull: { childrens: [id] } }, (updateError: any, updateEntity: any) => {
-                                    if (updateError) {
+                                
+                                super.update(parentId, { $pull: { childrens: getEntity._id } }, (putError: any, putEntity: any) => {
+                                    if (putError) {
                                         msg.message = "can't update this item:" + item.name;
                                         msg.statescode = 500;
-                                        msg.error = updateError;
+                                        msg.error = putError;
                                         callback(msg, null);
                                     }
                                     else {
-                                        console.log("update category");
-                                        console.log(updateEntity);
                                         callback(null, getEntity);
                                     }
                                 });
@@ -151,8 +123,6 @@ class CategoryService extends ServiceBase<ICategoryModel> implements ICategorySe
     getRootCategory(isAppendChild: boolean, callback: (error: any, result: any) => void) {
         this._categoryRep.getRootCategory(isAppendChild, callback);
     }
-
-
 }
 
 

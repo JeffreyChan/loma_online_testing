@@ -37,7 +37,30 @@ class CategoryController extends ControllerBase<ICategoryModel> implements ICate
         }
         catch (e) {
             console.log(e);
-            res.send({ "error": "error in your request" });
+            res.send({ "error": e });
+
+        }
+    }
+    
+    removeRootCategory(req: express.Request, res: express.Response): void {
+        try {
+            var entityId: string = req.params.id;
+            
+            this._catService.removeCategory(entityId, (error, result) => {
+                if (error) {
+                    res.json({ "error": error });
+                }
+                else {
+                    res.json({
+                        "success": "success",
+                        "entity": result
+                    });
+                }
+            });
+        }
+        catch (e) {
+            console.log(e);
+            res.send({ "error": e });
 
         }
     }

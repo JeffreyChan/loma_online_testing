@@ -5,5 +5,6 @@ import IControllerBase = require("./IControllerBase");
 interface ICategoryController extends IControllerBase<ICategoryModel> {
     createCategory: express.RequestHandler;
     getRootCategory: express.RequestHandler;
+    removeRootCategory: express.RequestHandler;
 }
 export = ICategoryController;  
