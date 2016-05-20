@@ -23,7 +23,7 @@ class RepositoryBase<T extends IEnityModel> {
 
     }
 
-    delete(id: string, callback: (error: any, result: any) => void) {
+    remove(id: string, callback: (error: any, result: any) => void) {
         this._model.remove({ _id: this.toObjectId(id) }, (err) => callback(err, null));
     }
 
@@ -33,7 +33,7 @@ class RepositoryBase<T extends IEnityModel> {
 
 
     private toObjectId(id: string): mongoose.Types.ObjectId {
-        return mongoose.Types.ObjectId.createFromHexString(id)
+        return new mongoose.Types.ObjectId(id)
     }
 
 }

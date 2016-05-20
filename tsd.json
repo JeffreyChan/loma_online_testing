@@ -28,6 +28,9 @@
     },
     "express-serve-static-core/express-serve-static-core.d.ts": {
       "commit": "e0abafb1a6ff652f7ff967120e312d5c1916eaef"
+    },
+    "morgan/morgan.d.ts": {
+      "commit": "e0abafb1a6ff652f7ff967120e312d5c1916eaef"
     }
   }
 }

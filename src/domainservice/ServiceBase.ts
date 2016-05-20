@@ -24,13 +24,22 @@ class ServiceBase<T extends IEnityModel> {
                 callback(err, res);
             }
             else {
-                this._repository.update(res._id, item, callback);
+                if (!res) {
+                    var msg = {
+                        error: "can't find category by id:".concat(id),
+                        statescode: 404
+                    };
+                    callback(msg, null);
+                }
+                else {
+                    this._repository.update(res._id, item, callback);
+                }
             }
         });
     }
 
-    delete(id: string, callback: (error: any, result: any) => void) {
-        this._repository.delete(id, callback);
+    remove(id: string, callback: (error: any, result: any) => void) {
+        this._repository.remove(id, callback);
     }
 
     findById(id: string, callback: (error: any, result: any) => void) {
