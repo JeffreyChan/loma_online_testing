@@ -7,14 +7,14 @@ interface IRepositoryBase<T extends IEnityModel> {
         read operation
     */
     retrieve: (callback: (error: any, result: any) => void) => void;
-    findById: (id: string, callback: (error: any, result: T) => void) => void;
-
+    findById: (entityId: string) => Promise<IEnityModel>;
+   
     /*
         write operation
     */
-    create: (item: T, callback: (error: any, result: any) => void) => void;
-    update: (id: string, item: any, callback: (error: any, result: any) => void) => void;
-    remove: (id: string, callback: (error: any, result: any) => void) => void;
+    create: (entity: T) => Promise<IEnityModel>;
+    update: (entityId: string, entity: any) => Promise<IEnityModel>;
+    remove: (entityId: string) => Promise<IEnityModel>;
 }
 
 export = IRepositoryBase;

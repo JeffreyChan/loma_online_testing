@@ -2,10 +2,10 @@
 import mongoose = require("mongoose");
 import IRepositoryBase = require("./IRepositoryBase");
 import ICategoryModel = require("./../../domainmodel/ICategoryModel");
+import IEnityModel = require("./../../domainmodel/IEntityModel");
 
 interface ICategoryRepository extends IRepositoryBase<ICategoryModel>{ 
-    createCategory:(item: ICategoryModel, callback: (error: any, result: any) => void) => void;
-    getRootCategory: (isAppendChild:boolean ,callback: (error:any, result: any) => void) => void;   
+    getRootCategory: () => Promise<ICategoryModel[]>;   
 } 
 
 export = ICategoryRepository;

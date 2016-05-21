@@ -15,15 +15,14 @@ class CategoryController extends ControllerBase<ICategoryModel> implements ICate
         super(catService);
         this._catService = catService;
     }
-    getRootCategory(req: express.Request, res: express.Response): void{
-        
-        
-    }
-    createCategory(req: express.Request, res: express.Response): void {
-        try {
-            var item: ICategoryModel = <ICategoryModel>req.body;
-            
-            this._catService.createCategory(item, (error, result) => {
+    getRootCategory(req: express.Request, res: express.Response): void {
+
+        res.json({
+            "success": "success",
+            "entity": "hello for test"
+        });
+        /*try {
+            this._catService.getRootCategory(true, (error, result) => {
                 if (error) {
                     res.json({ "error": error });
                 }
@@ -39,16 +38,38 @@ class CategoryController extends ControllerBase<ICategoryModel> implements ICate
             console.log(e);
             res.send({ "error": e });
 
+        }*/
+    }
+    createCategory(req: express.Request, res: express.Response): void {
+        try {
+            var item: ICategoryModel = <ICategoryModel>req.body;
+
+            this._catService.createCategory(item, (error, result) => {
+                if (error) {
+                    res.json({ "error": error.message });
+                }
+                else {
+                    res.json({
+                        "success": "success",
+                        "entity": result
+                    });
+                }
+            });
+        }
+        catch (e) {
+            console.log(e);
+            res.send({ "error": e });
+
         }
     }
-    
-    removeRootCategory(req: express.Request, res: express.Response): void {
+
+    removeCategory(req: express.Request, res: express.Response): void {
         try {
             var entityId: string = req.params.id;
-            
+
             this._catService.removeCategory(entityId, (error, result) => {
                 if (error) {
-                    res.json({ "error": error });
+                    res.json({ "error": error.message });
                 }
                 else {
                     res.json({

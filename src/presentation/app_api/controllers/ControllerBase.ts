@@ -11,15 +11,15 @@ class ControllerBase<T extends IEnityModel>{
 
     create(req: express.Request, res: express.Response): void {
         try {
-            var item: T = <T>req.body;
-            this._service.create(item, (error, result) => {
+            var entity: T = <T>req.body;
+            this._service.create(entity, (error, postEntity:IEnityModel) => {
                 if (error) {
-                    res.send({ "error": error });
+                    res.send({ "error": error.message });
                 }
                 else {
                     res.send({
                         "success": "success",
-                        "entity": result
+                        "entity": postEntity
                     });
                 }
             });
@@ -42,7 +42,7 @@ class ControllerBase<T extends IEnityModel>{
 
             this._service.update(entityId, item, (error, result) => {
                 if (error) {
-                    res.send({ "error": error });
+                    res.send({ "error": error.message });
                 }
                 else {
                     res.send({
@@ -64,7 +64,7 @@ class ControllerBase<T extends IEnityModel>{
 
             this._service.remove(entityId, (error, result) => {
                 if (error) {
-                    res.send({ "error": error });
+                    res.send({ "error": error.message });
                 }
                 else {
                     res.send({ "success": "success" });
@@ -82,10 +82,10 @@ class ControllerBase<T extends IEnityModel>{
         try {
 
             var entityId: string = req.params.id;
-            console.info("hello");
-            this._service.findById(entityId, (error, result) => {
+            this._service.findById(entityId, (error:any, result:any) => {
                 if (error) {
-                    res.send({ "error": error });
+                    console.log(error);
+                    res.send({ "error": error.message });
                 }
                 else {
                     res.send(result);
@@ -94,7 +94,7 @@ class ControllerBase<T extends IEnityModel>{
         }
         catch (e) {
             console.log(e);
-            res.send({ "error": "error in your request" });
+            res.send({ "error": e});
 
         }
     }

@@ -9,26 +9,38 @@ class RepositoryBase<T extends IEnityModel> {
         this._model = schemaModel;
     }
 
-    create(item: T, callback: (error: any, result: any) => void) {
-        this._model.create(item, callback);
-
+    create(item: T): Promise<IEnityModel>{
+        return this._model.create(item);
     }
 
     retrieve(callback: (error: any, result: any) => void) {
         this._model.find({}, callback)
     }
 
-    update(id: string, item: any, callback: (error: any, result: any) => void) {
-        this._model.update({ _id: this.toObjectId(id) }, item, callback);
-
+    update(entityId: string, entity: any): Promise<IEnityModel> {
+        return this.findById(entityId).then((getEntity: IEnityModel) => {
+            if (!getEntity) {
+                throw new Error("can not find this enetity");
+            }
+            return getEntity;
+        }).then((putEntity: IEnityModel) => {
+            return this._model.update({ _id: putEntity._id }, entity).exec();
+        });
     }
 
-    remove(id: string, callback: (error: any, result: any) => void) {
-        this._model.remove({ _id: this.toObjectId(id) }, (err) => callback(err, null));
+    remove(entityId: string): Promise<IEnityModel> {
+        return this.findById(entityId).then((getEntity: IEnityModel) => {
+            if (!getEntity) {
+                throw new Error("can not find this enetity");
+            }
+            return getEntity;
+        }).then((delEntity: IEnityModel) => {
+            return this._model.remove({ _id: delEntity._id }).exec();
+        });
     }
 
-    findById(id: string, callback: (error: any, result: T) => void) {
-        this._model.findById(id, callback);
+    findById(entityId: string): Promise<IEnityModel> {
+        return this._model.findById(entityId).exec();
     }
 
 

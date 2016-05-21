@@ -10,7 +10,14 @@ class ServiceBase<T extends IEnityModel> {
     }
 
     create(item: T, callback: (error: any, result: any) => void) {
-        this._repository.create(item, callback);
+        this._repository.create(item).then((postEntity: IEnityModel) => {
+            if (!postEntity) {
+                throw new Error('can not find category');
+            }
+            callback(null, postEntity);
+        }).then(null, (error: any) => {
+            callback(error, null);
+        });
     }
 
     retrieve(callback: (error: any, result: any) => void) {
@@ -19,48 +26,34 @@ class ServiceBase<T extends IEnityModel> {
 
     update(id: string, item: any, callback: (error: any, result: any) => void) {
 
-        this._repository.findById(id, (err, res) => {
-            if (err) {
-                callback(err, res);
+        this._repository.update(id, item).then((entity: IEnityModel) => {
+            if (!entity) {
+                throw new Error('can not find category');
             }
-            else {
-                if (!res) {
-                    var msg = {
-                        error: "can't find category by id:".concat(id),
-                        statescode: 404
-                    };
-                    callback(msg, null);
-                }
-                else {
-                    this._repository.update(res._id, item, callback);
-                }
-            }
+            callback(null, entity);
+        }).then(null, (error: any) => {
+            callback(error, null);
         });
     }
 
-    remove(id: string, callback: (error: any, result: any) => void) {
-        this._repository.findById(id, (err, res) => {
-            if (err) {
-                callback(err, res);
-            }
-            else {
-                if (!res) {
-                    var msg = {
-                        error: "can't find category by id:".concat(id),
-                        statescode: 404
-                    };
-                    callback(msg, null);
-                }
-                else {
-                    this._repository.remove(id, callback);
-                }
-            }
+    remove(entityId: string, callback: (error: any, enitty: any) => void) {
+        this._repository.remove(entityId).then((entity: IEnityModel) => {
+            callback(null, entity);
+        }).then(null, (error: any) => {
+            callback(error, null);
         });
-
     }
 
     findById(id: string, callback: (error: any, result: any) => void) {
-        this._repository.findById(id, callback);
+        this._repository.findById(id).then((entity: IEnityModel) => {
+            if (!entity) {
+                throw new Error('can not find category');
+            }
+            callback(null, entity);
+        }).then(null, (error: any) => {
+            console.log(error);
+            callback(error, null);
+        });
     }
 }
 
