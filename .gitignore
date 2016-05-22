@@ -1,8 +1,7 @@
 # Dependency directory
 node_modules/
 typings/
-build/
+dist/
 logs/
-.DS_Store
 # Environment variables
 .env

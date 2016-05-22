@@ -1,7 +1,7 @@
 import express = require("express");
-import IServiceBase = require("./../../../domainservice/IServiceBase.ts");
-import ServiceBase = require("./../../../domainservice/ServiceBase.ts");
-import IEnityModel = require("./../../../domainmodel/IEntityModel");
+import IServiceBase = require("./../../domainservice/IServiceBase.ts");
+import ServiceBase = require("./../../domainservice/ServiceBase.ts");
+import IEnityModel = require("./../../domainmodel/IEntityModel");
 
 class ControllerBase<T extends IEnityModel>{
     private _service: IServiceBase<T>;

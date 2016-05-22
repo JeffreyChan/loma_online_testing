@@ -1,5 +1,5 @@
 import Mongoose = require("mongoose");
-import Constants = require("./../presentation/app_api/config/Constants");
+import Constants = require("./../app_api/config/Constants");
 
 class DataAccess {
     static mongooseInstance: any;

@@ -1,5 +1,5 @@
 import express = require("express");
-import IEnityModel = require("./../../../domainmodel/IEntityModel");
+import IEnityModel = require("./../../domainmodel/IEntityModel");
 
 interface IControllerBase<T extends IEnityModel> {
     retrieve: express.RequestHandler;

@@ -1,5 +1,5 @@
 import express = require("express");
-import ICategoryModel = require("./../../../domainmodel/ICategoryModel");
+import ICategoryModel = require("./../../domainmodel/ICategoryModel");
 import IControllerBase = require("./IControllerBase");
 
 interface ICategoryController extends IControllerBase<ICategoryModel> {

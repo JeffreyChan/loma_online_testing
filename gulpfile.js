@@ -1,26 +1,39 @@
-var gulp = require("gulp");
-var tsc  = require("gulp-typescript-compiler");
-var nodemon = require("gulp-nodemon");
+const gulp = require("gulp");
+const del = require('del');
+const typescript = require('gulp-typescript');
+const sourcemaps = require('gulp-sourcemaps');
+const tscConfig = require('./tsconfig.json');
+const tslint = require('gulp-tslint');
 
-gulp.task("default", ["compile", "watch", "nodemon"]);
+const nodemon = require("gulp-nodemon");
 
+gulp.task("default", ["compile","watch", "nodemon"]);
 
-gulp.task("watch", function () {
-   return gulp.watch("src/**/*.*", ["compile"]);
+// clean the contents of the distribution directory
+gulp.task("clean", function () {
+  return del('dist/**/*');
 });
 
-gulp.task("compile", function () {
+gulp.task("watch", function () {
+  return gulp.watch("src/**/*.*", ["compile"]);
+});
+
+gulp.task("compile", ["clean"], function () {
   return gulp
-    .src("src/**/*.ts") 
-    .pipe(tsc({
-        module: "commonjs",
-        target: "ES5",
-        sourcemap: false,
-        logErrors: true
-    }))
-    .pipe(gulp.dest("build"));
+    .src("src/**/*.ts")
+    .pipe(sourcemaps.init())          // <--- sourcemaps
+    .pipe(typescript(tscConfig.compilerOptions))
+    .pipe(sourcemaps.write("."))      // <--- sourcemaps
+    .pipe(gulp.dest("dist"));
 });
 
 gulp.task("nodemon", function () {
-  nodemon({ script: "build/index.js" });
+  nodemon({ script: "dist/index.js" });
+});
+
+// linting
+gulp.task('tslint', function() {
+  return gulp.src('src/**/*.ts')
+    .pipe(tslint())
+    .pipe(tslint.report('verbose'));
 });

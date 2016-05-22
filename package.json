@@ -9,11 +9,6 @@
     "cookie-parser": "~1.3.5",
     "debug": "~2.2.0",
     "express": "~4.13.1",
-    "gulp": "^3.9.1",
-    "gulp-nodemon": "^2.0.7",
-    "gulp-strip-debug": "^1.1.0",
-    "gulp-tsc": "^1.1.5",
-    "gulp-typescript-compiler": "^1.0.1",
     "method-override": "^2.3.5",
     "mongoose": "^4.4.17",
     "mongoose-unique-validator": "^1.0.2",
@@ -27,6 +22,15 @@
     "url": "https://github.com/JeffreyChan/loma_online_testing.git"
   },
   "devDependencies": {
+    "del": "^2.2.0",
+    "gulp": "^3.9.1",
+    "gulp-nodemon": "^2.0.7",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-strip-debug": "^1.1.0",
+    "gulp-tsc": "^1.1.5",
+    "gulp-tslint": "^5.0.0",
+    "gulp-typescript": "^2.13.4",
+    "tslint": "^3.10.2",
     "typescript": "^1.8.10",
     "vscode": "^0.11.13"
   }
