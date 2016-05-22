@@ -18,49 +18,54 @@ class CategoryService extends ServiceBase<ICategoryModel> implements ICategorySe
     createCategory(catEntity: ICategoryModel, callback: (error: any, result: any) => void) {
         var parentCat: ICategoryModel;
         var postEntity: ICategoryModel;
-        if (catEntity && catEntity.parent) {
-            this._categoryRep.findById(catEntity.parent).then((getCat: ICategoryModel) => {
-                if (!getCat) {
-                    throw new Error("can not find this category's parent");
-                }
-                return getCat;
-            }).then((getCat: ICategoryModel) => {
-                parentCat = getCat;
+        this._categoryRep.retrieve({ name: catEntity.name }).then((catList: ICategoryModel[]) => {
+            if (catList && catList.length > 0) {
+                throw new Error("the category name exists, please try other!");
+            }
+            return catList;
+        }).then((catList: ICategoryModel[]) => {
+            if (catEntity && catEntity.parent) {
+                return this._categoryRep.findById(catEntity.parent);
+            } else {
                 return this._categoryRep.create(catEntity);
-            }).then((postCat: ICategoryModel) => {
-                postEntity = postCat;
-                return this._categoryRep.update(parentCat._id, { $push: { childrens: postEntity._id } });
-            }).then((putInfo: any) => {
-                callback(null, postEntity);
-            }).then(null, (error: any) => {
-                callback(error, null);
-            });
-        } else {
-            this._categoryRep.create(catEntity).then((postCat: ICategoryModel) => {
-                callback(null, postEntity);
-            }).then(null, (error: any) => {
-                callback(error, null);
-            });
-        }
+            }
+        }).then((cat: ICategoryModel) => {
+            if (cat.childrens.length > 0) {
+                parentCat = cat;
+                return this._categoryRep.create(catEntity);
+            } else {
+                callback(null, cat);
+                return null;
+            }
+        }).then((cat: ICategoryModel) => {
+            if (!cat) {
+                return null;
+            }
+            postEntity = cat;
+            return this._categoryRep.update(parentCat._id, { $push: { childrens: postEntity._id } });
+        }).then((cat: ICategoryModel) => {
+            if (!cat) {
+                return null;
+            }
+            callback(null, postEntity);
+        }).catch((error: any) => {
+            callback(error, null);
+        });
     }
 
     removeCategory(catId: string, callback: (error: any, result: any) => void) {
         var getEntity: ICategoryModel;
         var delInfo: any;
         this._categoryRep.findById(catId).then((getCat: ICategoryModel) => {
-            console.log(getCat);
             if (!getCat) {
                 throw new Error("can not find this category's parent");
             }
-            console.log("get category right");
             return getCat;
         }).then((getCatTemp: ICategoryModel) => {
             getEntity = getCatTemp;
-            console.log("set category for delete");
             return this._categoryRep.remove(catId);
         }).then((delInfoTemp: any) => {
             delInfo = delInfoTemp;
-            console.log("delete category right");
             if (getEntity.parent) {
                 return this._categoryRep.update(getEntity.parent, { $pull: { childrens: getEntity._id } });
             }

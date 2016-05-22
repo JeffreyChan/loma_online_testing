@@ -6,7 +6,7 @@ interface IRepositoryBase<T extends IEnityModel> {
     /*
         read operation
     */
-    retrieve: (callback: (error: any, result: any) => void) => void;
+    retrieve: (options : Object) => Promise<IEnityModel[]>;
     findById: (entityId: string) => Promise<IEnityModel>;
    
     /*

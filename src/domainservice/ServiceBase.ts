@@ -21,7 +21,11 @@ class ServiceBase<T extends IEnityModel> {
     }
 
     retrieve(callback: (error: any, result: any) => void) {
-        this._repository.retrieve(callback);
+        this._repository.retrieve({}).then((itemList: IEnityModel[]) => {
+            callback(null, itemList);
+        }).then(null, (error: any) => {
+            callback(error, null);
+        });
     }
 
     update(id: string, item: any, callback: (error: any, result: any) => void) {

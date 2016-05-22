@@ -13,8 +13,8 @@ class RepositoryBase<T extends IEnityModel> {
         return this._model.create(item);
     }
 
-    retrieve(callback: (error: any, result: any) => void) {
-        this._model.find({}, callback)
+    retrieve(options : Object) : Promise<IEnityModel[]> {
+        return this._model.find(options).exec();
     }
 
     update(entityId: string, entity: any): Promise<IEnityModel> {
