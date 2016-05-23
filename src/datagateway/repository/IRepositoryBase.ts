@@ -6,15 +6,15 @@ interface IRepositoryBase<T extends IEnityModel> {
     /*
         read operation
     */
-    retrieve: (options : Object) => Promise<IEnityModel[]>;
-    findById: (entityId: string) => Promise<IEnityModel>;
+    retrieve: (options : Object) => mongoose.Promise<IEnityModel[]>;
+    findById: (entityId: string) => mongoose.Promise<IEnityModel>;
    
     /*
         write operation
     */
-    create: (entity: T) => Promise<IEnityModel>;
-    update: (entityId: string, entity: any) => Promise<IEnityModel>;
-    remove: (entityId: string) => Promise<IEnityModel>;
+    create: (entity: T) => mongoose.Promise<IEnityModel>;
+    update: (entityId: string, entity: any) => mongoose.Promise<IEnityModel>;
+    remove: (entityId: string) => mongoose.Promise<IEnityModel>;
 }
 
 export = IRepositoryBase;

@@ -18,7 +18,7 @@ gulp.task("watch", function () {
   return gulp.watch("src/**/*.*", ["compile"]);
 });
 
-gulp.task("compile", ["clean"], function () {
+gulp.task("compile", function () {
   return gulp
     .src("src/**/*.ts")
     .pipe(sourcemaps.init())          // <--- sourcemaps

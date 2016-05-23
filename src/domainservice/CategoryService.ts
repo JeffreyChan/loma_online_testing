@@ -18,12 +18,12 @@ class CategoryService extends ServiceBase<ICategoryModel> implements ICategorySe
     createCategory(catEntity: ICategoryModel, callback: (error: any, result: any) => void) {
         var parentCat: ICategoryModel;
         var postEntity: ICategoryModel;
-        this._categoryRep.retrieve({ name: catEntity.name }).then((catList: ICategoryModel[]) => {
+        Promise.resolve(this._categoryRep.retrieve({ name: catEntity.name }).then((catList: ICategoryModel[]) => {
             if (catList && catList.length > 0) {
                 throw new Error("the category name exists, please try other!");
             }
             return catList;
-        }).then((catList: ICategoryModel[]) => {
+        })).then((catList: ICategoryModel[]) => {
             if (catEntity && catEntity.parent) {
                 return this._categoryRep.findById(catEntity.parent);
             } else {
@@ -48,7 +48,7 @@ class CategoryService extends ServiceBase<ICategoryModel> implements ICategorySe
                 return null;
             }
             callback(null, postEntity);
-        }).catch((error: any) => {
+        }).catch(null, (error: any) => {
             callback(error, null);
         });
     }
@@ -56,12 +56,12 @@ class CategoryService extends ServiceBase<ICategoryModel> implements ICategorySe
     removeCategory(catId: string, callback: (error: any, result: any) => void) {
         var getEntity: ICategoryModel;
         var delInfo: any;
-        this._categoryRep.findById(catId).then((getCat: ICategoryModel) => {
+        Promise.resolve(this._categoryRep.findById(catId).then((getCat: ICategoryModel) => {
             if (!getCat) {
                 throw new Error("can not find this category's parent");
             }
             return getCat;
-        }).then((getCatTemp: ICategoryModel) => {
+        })).then((getCatTemp: ICategoryModel) => {
             getEntity = getCatTemp;
             return this._categoryRep.remove(catId);
         }).then((delInfoTemp: any) => {
@@ -75,7 +75,7 @@ class CategoryService extends ServiceBase<ICategoryModel> implements ICategorySe
 
         }).then((putInfo: any) => {
             callback(null, delInfo);
-        }).then(null, (error: any) => {
+        }).catch((error: any) => {
             callback(error, null);
         });
     }

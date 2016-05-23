@@ -3,21 +3,21 @@ import IEnityModel = require("./../../domainmodel/IEntityModel");
 
 class RepositoryBase<T extends IEnityModel> {
 
-    private _model: mongoose.Model<mongoose.Document>;
+    private _model: mongoose.Model<IEnityModel>;
 
-    constructor(schemaModel: mongoose.Model<mongoose.Document>) {
+    constructor(schemaModel: mongoose.Model<IEnityModel>) {
         this._model = schemaModel;
     }
 
-    create(item: T): Promise<IEnityModel>{
+    create(item: T): mongoose.Promise<IEnityModel>{
         return this._model.create(item);
     }
 
-    retrieve(options : Object) : Promise<IEnityModel[]> {
+    retrieve(options : Object) : mongoose.Promise<IEnityModel[]> {
         return this._model.find(options).exec();
     }
 
-    update(entityId: string, entity: any): Promise<IEnityModel> {
+    update(entityId: string, entity: any): mongoose.Promise<IEnityModel> {
         return this.findById(entityId).then((getEntity: IEnityModel) => {
             if (!getEntity) {
                 throw new Error("can not find this enetity");
@@ -28,7 +28,7 @@ class RepositoryBase<T extends IEnityModel> {
         });
     }
 
-    remove(entityId: string): Promise<IEnityModel> {
+    remove(entityId: string): mongoose.Promise<IEnityModel> {
         return this.findById(entityId).then((getEntity: IEnityModel) => {
             if (!getEntity) {
                 throw new Error("can not find this enetity");
@@ -39,7 +39,7 @@ class RepositoryBase<T extends IEnityModel> {
         });
     }
 
-    findById(entityId: string): Promise<IEnityModel> {
+    findById(entityId: string): mongoose.Promise<IEnityModel> {
         return this._model.findById(entityId).exec();
     }
 

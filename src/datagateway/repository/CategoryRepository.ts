@@ -13,7 +13,7 @@ class CategoryRepository extends RepositoryBase<ICategoryModel> implements ICate
         this._dbcontext = dbcontext;
     }
 
-    getRootCategory(): Promise<ICategoryModel[]> {
+    getRootCategory(): mongoose.Promise<ICategoryModel[]> {
 
         return null;
     }

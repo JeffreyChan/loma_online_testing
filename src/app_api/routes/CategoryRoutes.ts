@@ -1,9 +1,10 @@
 import express = require("express");
+import ICategoryController = require("./.././controllers/ICategoryController");
 import CategoryController = require("./.././controllers/CategoryController");
 
 var router = express.Router();
 class CategoryRoutes {
-    private _controller: CategoryController;
+    private _controller: ICategoryController;
 
     constructor() {
         this._controller = new CategoryController();

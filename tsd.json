@@ -34,6 +34,15 @@
     },
     "winston/winston.d.ts": {
       "commit": "e0abafb1a6ff652f7ff967120e312d5c1916eaef"
+    },
+    "underscore/underscore.d.ts": {
+      "commit": "e69daec7f79c0c25c4653f866e5cadb5bb7a01ca"
+    },
+    "underscore.string/underscore.string.d.ts": {
+      "commit": "e69daec7f79c0c25c4653f866e5cadb5bb7a01ca"
+    },
+    "bluebird/bluebird.d.ts": {
+      "commit": "e69daec7f79c0c25c4653f866e5cadb5bb7a01ca"
     }
   }
 }

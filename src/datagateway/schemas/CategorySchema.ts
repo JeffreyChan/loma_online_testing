@@ -1,14 +1,14 @@
-var uniqueValidator = require('mongoose-unique-validator');
+const uniqueValidator = require('mongoose-unique-validator');
 import DataAccess = require("./../DataAccess");
-import ICategory = require("./../../domainmodel/ICategoryModel.ts");
+import ICategory = require("./../../domainmodel/ICategoryModel");
 
-var mongoose = DataAccess.mongooseInstance;
-var mongooseConnection = DataAccess.mongooseConnection;
-var Schema = mongoose.Schema;
+let mongoose = DataAccess.mongooseInstance;
+let mongooseConnection = DataAccess.mongooseConnection;
+let Schema = mongoose.Schema;
 
 class CategorySchema {
     static get schema() {
-        var catSchema =  mongoose.Schema({
+        let catSchema =  new Schema({
             name: { type: String, index: 1, required: true, unique: true },
             desc: { type: String },
             parent: { type: Schema.Types.ObjectId, ref: 'Category' },
@@ -20,6 +20,6 @@ class CategorySchema {
     }
 }
 
-var schema = mongooseConnection.model<ICategory>("Category", CategorySchema.schema);
+let schema = mongooseConnection.model<ICategory>("Category", CategorySchema.schema);
 
 export = schema;

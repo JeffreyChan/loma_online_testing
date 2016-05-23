@@ -3,12 +3,18 @@ import IServiceBase = require("./../../domainservice/IServiceBase.ts");
 import ServiceBase = require("./../../domainservice/ServiceBase.ts");
 import IEnityModel = require("./../../domainmodel/IEntityModel");
 
+import _ = require('underscore');
+import strUtility = require('underscore.string');
+
 class ControllerBase<T extends IEnityModel>{
     private _service: IServiceBase<T>;
     constructor(service) {
         this._service = service;
     }
 
+    protected isNullOrEmpty(entity:any):boolean{
+        return _.isNull(entity) || _.isEmpty(entity) || _.isUndefined(entity);
+    }
     create(req: express.Request, res: express.Response): void {
         try {
             var entity: T = <T>req.body;
