@@ -1,3 +1,6 @@
+import Promise = require('bluebird');
+import _ = require("underscore");
+
 import CategoryRepository = require("./../datagateway/repository/CategoryRepository");
 import ICategoryRepository = require("./../datagateway/repository/ICategoryRepository");
 
@@ -15,10 +18,6 @@ import IQuestionModel = require("./../domainmodel/IQuestionModel");
 import IQuestionOptionModel = require("./../domainmodel/IQuestionOptionModel");
 
 import Utilities = require("./../domainmodel/Utilities");
-
-
-import _ = require('underscore');
-import Promise = require('bluebird');
 
 class QuestionService extends ServiceBase<IQuestionModel> implements IQuestionService {
     private _categoryRep: ICategoryRepository;
@@ -49,7 +48,7 @@ class QuestionService extends ServiceBase<IQuestionModel> implements IQuestionSe
         }).then((questionOptions: IQuestionOptionModel[]) => {
             console.log("the count is: " + questionOptions.length);
             console.log("the origin count is: " + question.options.length);
-            let rightAnswer = _.find<IQuestionOptionModel>(questionOptions, (item) => {
+            let rightAnswer = _.find(questionOptions, (item :IQuestionOptionModel) => {
                 return item.isCorrect ? item : null;
             });
             question.options = questionOptions;
@@ -60,7 +59,6 @@ class QuestionService extends ServiceBase<IQuestionModel> implements IQuestionSe
         }).then((qes: IQuestionModel) => {
             callback(null, qes);
         }).catch((error: any) => {
-            console.log(typeof error);
             callback(error, null);
         });
     }

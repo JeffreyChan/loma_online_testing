@@ -1,4 +1,5 @@
 import express = require("express");
+import _ = require('underscore');
 
 import IQuestionService = require("./../../domainservice/IQuestionService");
 import QuestionService = require("./../../domainservice/QuestionService");
@@ -8,8 +9,8 @@ import IQuestionModel = require("./../../domainmodel/IQuestionModel");
 import IQuestionController = require("./IQuestionController");
 import ControllerBase = require("./ControllerBase");
 
-import _ = require('underscore');
-import strUtility = require('underscore.string');
+
+import Utilities = require("./../../domainmodel/Utilities");
 
 class QuestionController extends ControllerBase<IQuestionModel> implements IQuestionController {
     private _questionService: IQuestionService;
@@ -24,35 +25,21 @@ class QuestionController extends ControllerBase<IQuestionModel> implements IQues
         try {
             let question: IQuestionModel = <IQuestionModel>req.body;
 
-            if (this.isNullOrEmpty(question)) {
+            if (Utilities.isNullorEmpty(question)) {
                 throw new Error("Question entity can't be empty!");
             }
-            if (this.isNullOrEmpty(question.title)) {
+            if (Utilities.isNullorEmpty(question.title)) {
                 throw new Error("Question title can't be empty!");
             }
-            if (this.isNullOrEmpty(question.options)) {
+            if (Utilities.isNullorEmpty(question.options)) {
                 throw new Error("Question options can't be empty!");
             }
             this._questionService.createQuestion(question, (error, result) => {
-                if (error) {
-                   res.json({ "error": error });
-
-                }
-                else {
-                    res.json({
-                        "success": "success",
-                        "entity": result
-                    });
-                }
+                this.handleResponse(res, error,result);
             });
         }
-        catch (error) {
-            if (error instanceof Error) {
-                res.json({ "errorInfo:": error.message });
-            }
-            else {
-                res.json({ "error:": error });
-            }
+        catch (errorInfo) {
+            this.handleResponse(res, errorInfo, null);
         }
     }
 }

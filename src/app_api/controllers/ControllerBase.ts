@@ -3,8 +3,8 @@ import IServiceBase = require("./../../domainservice/IServiceBase.ts");
 import ServiceBase = require("./../../domainservice/ServiceBase.ts");
 import IEnityModel = require("./../../domainmodel/IEntityModel");
 
-import _ = require('underscore');
-import strUtility = require('underscore.string');
+import Utilities = require("./../../domainmodel/Utilities");
+
 
 class ControllerBase<T extends IEnityModel>{
     private _service: IServiceBase<T>;
@@ -12,28 +12,31 @@ class ControllerBase<T extends IEnityModel>{
         this._service = service;
     }
 
-    protected isNullOrEmpty(entity:any):boolean{
-        return _.isNull(entity) || _.isEmpty(entity) || _.isUndefined(entity);
+    protected handleResponse(res: express.Response, error: any, result: any): void {
+        if (error) {
+            res.statusCode = 400;
+            if (error.errors) {
+                res.json({ "error": error });
+            } else {
+                res.json({ "error": error.message });
+            }
+        }
+        else {
+            res.json({
+                "success": "success",
+                "entity": result
+            });
+        }
     }
     create(req: express.Request, res: express.Response): void {
         try {
             var entity: T = <T>req.body;
-            this._service.create(entity, (error, postEntity:IEnityModel) => {
-                if (error) {
-                    res.send({ "error": error.message });
-                }
-                else {
-                    res.send({
-                        "success": "success",
-                        "entity": postEntity
-                    });
-                }
+            this._service.create(entity, (error, postEntity: IEnityModel) => {
+                this.handleResponse(res, error, postEntity);
             });
         }
-        catch (e) {
-            console.log(e);
-            res.send({ "error": "error in your request" });
-
+       catch (errorInfo) {
+            this.handleResponse(res, errorInfo, null);
         }
     }
 
@@ -41,27 +44,16 @@ class ControllerBase<T extends IEnityModel>{
         try {
             var entityId: string = req.params.id;
             var item: T = <T>req.body;
-            if (Object.keys(item).length === 0 && item.constructor === Object) {
-                res.json({ "error": "body can't be null or empty", "statescode": 500 });
-                return;
+            if (Utilities.isNullorEmpty(item)) {
+                throw new Error("body can't be null or empty");
             }
 
             this._service.update(entityId, item, (error, result) => {
-                if (error) {
-                    res.send({ "error": error.message });
-                }
-                else {
-                    res.send({
-                        "success": "success",
-                        "entity": result
-                    });
-                }
+                this.handleResponse(res, error, result);
             });
         }
-        catch (e) {
-            console.log(e);
-            res.send({ "error": "error in your request" });
-
+        catch (errorInfo) {
+            this.handleResponse(res, errorInfo, null);
         }
     }
     remove(req: express.Request, res: express.Response): void {
@@ -69,39 +61,23 @@ class ControllerBase<T extends IEnityModel>{
             var entityId: string = req.params.id;
 
             this._service.remove(entityId, (error, result) => {
-                if (error) {
-                    res.send({ "error": error.message });
-                }
-                else {
-                    res.send({ "success": "success" });
-                }
+                this.handleResponse(res, error, result);
             });
         }
-        catch (e) {
-            console.log(e);
-            res.send({ "error": "error in your request" });
-
+        catch (errorInfo) {
+            this.handleResponse(res, errorInfo, null);
         }
     }
 
     findById(req: express.Request, res: express.Response): void {
         try {
-
             var entityId: string = req.params.id;
-            this._service.findById(entityId, (error:any, result:any) => {
-                if (error) {
-                    console.log(error);
-                    res.send({ "error": error.message });
-                }
-                else {
-                    res.send(result);
-                }
+            this._service.findById(entityId, (error: any, result: any) => {
+                this.handleResponse(res, error, result);
             });
         }
-        catch (e) {
-            console.log(e);
-            res.send({ "error": e});
-
+        catch (errorInfo) {
+            this.handleResponse(res, errorInfo, null);
         }
     }
 

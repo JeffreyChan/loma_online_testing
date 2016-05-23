@@ -44,15 +44,7 @@ class CategoryController extends ControllerBase<ICategoryModel> implements ICate
             var item: ICategoryModel = <ICategoryModel>req.body;
 
             this._catService.createCategory(item, (error, result) => {
-                if (error) {
-                    res.json({ "error": error.message });
-                }
-                else {
-                    res.json({
-                        "success": "success",
-                        "entity": result
-                    });
-                }
+               this.handleResponse(res, error, result);
             });
         }
         catch (e) {
@@ -67,19 +59,10 @@ class CategoryController extends ControllerBase<ICategoryModel> implements ICate
             var entityId: string = req.params.id;
 
             this._catService.removeCategory(entityId, (error, result) => {
-                if (error) {
-                    res.json({ "error": error.message });
-                }
-                else {
-                    res.json({
-                        "success": "success",
-                        "entity": result
-                    });
-                }
+                this.handleResponse(res, error, result);
             });
         }
         catch (e) {
-            console.log(e);
             res.send({ "error": e });
 
         }

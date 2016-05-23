@@ -1,10 +1,13 @@
+import Promise = require('bluebird');
 
-/// <reference path="./../datagateway/repository/ICategoryRepository.ts" />
 import CategoryRepository = require("./../datagateway/repository/CategoryRepository");
 import ICategoryRepository = require("./../datagateway/repository/ICategoryRepository");
 import ServiceBase = require("./ServiceBase");
 import ICategoryService = require("./ICategoryService");
 import ICategoryModel = require("./../domainmodel/ICategoryModel");
+
+import Utilities = require("./../domainmodel/Utilities");
+
 
 class CategoryService extends ServiceBase<ICategoryModel> implements ICategoryService {
     private _categoryRep: ICategoryRepository;
@@ -54,11 +57,12 @@ class CategoryService extends ServiceBase<ICategoryModel> implements ICategorySe
     }
 
     removeCategory(catId: string, callback: (error: any, result: any) => void) {
-        var getEntity: ICategoryModel;
-        var delInfo: any;
+        let getEntity: ICategoryModel;
+        let delInfo: any;
+        let UpdateParentChildFlag = 0;
         Promise.resolve(this._categoryRep.findById(catId).then((getCat: ICategoryModel) => {
             if (!getCat) {
-                throw new Error("can not find this category's parent");
+                throw new Error("can not find this category");
             }
             return getCat;
         })).then((getCatTemp: ICategoryModel) => {
@@ -66,14 +70,24 @@ class CategoryService extends ServiceBase<ICategoryModel> implements ICategorySe
             return this._categoryRep.remove(catId);
         }).then((delInfoTemp: any) => {
             delInfo = delInfoTemp;
-            if (getEntity.parent) {
+            if (!Utilities.isNullorEmpty(getEntity.parent)) {
+                UpdateParentChildFlag = 1;
                 return this._categoryRep.update(getEntity.parent, { $pull: { childrens: getEntity._id } });
-            }
-            else {
+            } else if (!Utilities.isNullorEmpty(getEntity.childrens)) {
+                UpdateParentChildFlag = 2;
+            } else {
                 callback(null, delInfo);
             }
 
         }).then((putInfo: any) => {
+            if (UpdateParentChildFlag === 2) {
+                return this._categoryRep.removeCategoryList({ _id: { $in: getEntity.childrens } });
+            } else {
+                callback(null, delInfo);
+            }
+
+        }).then((childList: ICategoryModel[]) => {
+            console.log(childList);
             callback(null, delInfo);
         }).catch((error: any) => {
             callback(error, null);

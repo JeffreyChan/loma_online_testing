@@ -17,6 +17,11 @@ class CategoryRepository extends RepositoryBase<ICategoryModel> implements ICate
 
         return null;
     }
+    
+    removeCategoryList(doc:Object): mongoose.Promise<ICategoryModel[]>
+    {
+        return this._dbcontext.remove(doc).exec();
+    }
 }
 
 Object.seal(CategoryRepository);
