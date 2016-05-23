@@ -18,25 +18,11 @@ class RepositoryBase<T extends IEnityModel> {
     }
 
     update(entityId: string, entity: any): mongoose.Promise<IEnityModel> {
-        return this.findById(entityId).then((getEntity: IEnityModel) => {
-            if (!getEntity) {
-                throw new Error("can not find this enetity");
-            }
-            return getEntity;
-        }).then((putEntity: IEnityModel) => {
-            return this._model.update({ _id: putEntity._id }, entity).exec();
-        });
+        return this._model.update({ _id: this.toObjectId(entityId) }, entity).exec();
     }
 
     remove(entityId: string): mongoose.Promise<IEnityModel> {
-        return this.findById(entityId).then((getEntity: IEnityModel) => {
-            if (!getEntity) {
-                throw new Error("can not find this enetity");
-            }
-            return getEntity;
-        }).then((delEntity: IEnityModel) => {
-            return this._model.remove({ _id: delEntity._id }).exec();
-        });
+         return this._model.remove({ _id: this.toObjectId(entityId) }).exec();
     }
 
     findById(entityId: string): mongoose.Promise<IEnityModel> {

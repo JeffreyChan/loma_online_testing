@@ -14,9 +14,13 @@ class QuestionOptionRepository extends RepositoryBase<IQuestionOptionModel> impl
         super(dbcontext);
         this._dbcontext = dbcontext;
     }
-    
-    createList (entityList: IQuestionOptionModel[]) : mongoose.Promise<IQuestionOptionModel[]>{
-      return this._dbcontext.create(entityList);
+
+    createList(entityList: IQuestionOptionModel[]): mongoose.Promise<IQuestionOptionModel[]> {
+        return this._dbcontext.create(entityList);
+    }
+
+    updateList(cond: Object, update: Object): mongoose.Promise<IQuestionOptionModel> {
+        return this._dbcontext.update(cond, update).exec();
     }
 }
 
