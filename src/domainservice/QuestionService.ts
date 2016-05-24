@@ -60,7 +60,6 @@ class QuestionService extends ServiceBase<IQuestionModel> implements IQuestionSe
             }
             return cat;
         })).then((cat: ICategoryModel) => {
-            console.log(cat)
             if (!Utilities.isNullorEmpty(cat.childrens)) {
                 throw new Error("the question category only can be selected in level, please try other!");
             }

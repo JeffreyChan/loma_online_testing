@@ -14,7 +14,8 @@ class QuestionSchema {
             tip: { type: String },
             correct: { type: Schema.Types.ObjectId, ref: 'QuestionOption' },
             options: [{ type: Schema.Types.ObjectId, required: true, ref: 'QuestionOption' }],
-            create_date: { type: Date, default: Date.now },
+            random: { type: [Number], default:  () => { return [Math.random(), Math.random()] }, index: '2d' },
+            create_date: { type: Date, default: Date.now }
         }, { collection: 'questions' });
         questionSchema.plugin(uniqueValidator);
         return questionSchema;
