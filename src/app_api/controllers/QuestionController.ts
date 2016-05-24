@@ -50,8 +50,9 @@ class QuestionController extends ControllerBase<IQuestionModel> implements IQues
     updateQuestion(req: express.Request, res: express.Response): void {
         try {
             let question: IQuestionModel = <IQuestionModel>req.body;
-
             this.validtorQuestion(question);
+
+            question._id = req.params.id;
 
             this._questionService.updateQuestion(question, (error, result) => {
                 this.handleResponse(res, error, result);

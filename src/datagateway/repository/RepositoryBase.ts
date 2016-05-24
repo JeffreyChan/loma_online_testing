@@ -9,20 +9,20 @@ class RepositoryBase<T extends IEnityModel> {
         this._model = schemaModel;
     }
 
-    create(item: T): mongoose.Promise<IEnityModel>{
+    create(item: T): mongoose.Promise<IEnityModel> {
         return this._model.create(item);
     }
 
-    retrieve(options : Object) : mongoose.Promise<IEnityModel[]> {
+    retrieve(options: Object): mongoose.Promise<IEnityModel[]> {
         return this._model.find(options).exec();
     }
 
     update(entityId: string, entity: any): mongoose.Promise<IEnityModel> {
-        return this._model.update({ _id: this.toObjectId(entityId) }, entity).exec();
+        return this._model.update({ _id: entityId }, entity).exec();
     }
 
     remove(entityId: string): mongoose.Promise<IEnityModel> {
-         return this._model.remove({ _id: this.toObjectId(entityId) }).exec();
+        return this._model.remove({ _id: entityId }).exec();
     }
 
     findById(entityId: string): mongoose.Promise<IEnityModel> {
