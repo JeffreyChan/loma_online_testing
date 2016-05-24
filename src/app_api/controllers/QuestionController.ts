@@ -62,6 +62,18 @@ class QuestionController extends ControllerBase<IQuestionModel> implements IQues
             this.handleResponse(res, errorInfo, null);
         }
     }
+    removeQuestion(req: express.Request, res: express.Response) :void{
+        try {
+            let questionId = req.params.id;
+
+            this._questionService.removeQuestion(questionId, (error, result) => {
+                this.handleResponse(res, error, result);
+            });
+        }
+        catch (errorInfo) {
+            this.handleResponse(res, errorInfo, null);
+        }
+    };
 }
 
 Object.seal(QuestionController);

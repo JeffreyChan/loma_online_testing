@@ -12,6 +12,7 @@ class QuestionRoutes {
     get routes() {
         router.post("/question", this._controller.createQuestion.bind(this._controller));
         router.put("/question/:id", this._controller.updateQuestion.bind(this._controller));
+        router.delete("/question/:id", this._controller.removeQuestion.bind(this._controller));
 
         return router;
     }

@@ -22,6 +22,10 @@ class QuestionOptionRepository extends RepositoryBase<IQuestionOptionModel> impl
     updateList(cond: Object, update: Object): mongoose.Promise<IQuestionOptionModel> {
         return this._dbcontext.update(cond, update, { multi: true }).exec();
     }
+    
+    removeList (cond: Object) : mongoose.Promise<IQuestionOptionModel>{
+        return this._dbcontext.remove(cond).exec();
+    }
 }
 
 Object.seal(QuestionOptionRepository);

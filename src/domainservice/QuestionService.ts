@@ -140,6 +140,26 @@ class QuestionService extends ServiceBase<IQuestionModel> implements IQuestionSe
             callback(error, null);
         });
     }
+
+    removeQuestion(id: string, callback: (error: any, result: any) => void) {
+        let dbQuestion: IQuestionModel;
+        let questionDelInfo: any;
+        Promise.resolve(this._questionRep.findById(id).then((item: IQuestionModel) => {
+            if (Utilities.isNullorEmpty(item)) {
+                throw new Error("the question can not be found, please try other!");
+            }
+            dbQuestion = item;
+            return this._questionRep.remove(id);
+        })).then((delInfo: any) => {
+            questionDelInfo = delInfo;
+
+            return this._questionOptionRep.removeList({ _id: { $in: dbQuestion.options } });
+        }).then((delInfo: any) => {
+            callback(null, questionDelInfo);
+        }).catch((error: any) => {
+            callback(error, null);
+        });
+    }
 }
 
 

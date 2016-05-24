@@ -5,5 +5,6 @@ import IControllerBase = require("./IControllerBase");
 interface IQuestionController extends IControllerBase<IQuestionModel> {
     createQuestion: express.RequestHandler;
     updateQuestion: express.RequestHandler;
+    removeQuestion: express.RequestHandler;
 }
 export = IQuestionController;  
