@@ -15,16 +15,13 @@ class CategoryController extends ControllerBase<ICategoryModel> implements ICate
         this._catService = catService;
     }
     getRootCategory(req: express.Request, res: express.Response): void {
-
         try {
             this._catService.getRootCategory((error, result) => {
-               this.handleResponse(res, error, result);
+                this.handleResponse(res, error, result);
             });
         }
-        catch (e) {
-            console.log(e);
-            res.send({ "error": e });
-
+        catch (errorInfo) {
+            this.handleResponse(res, errorInfo, null);
         }
     }
     createCategory(req: express.Request, res: express.Response): void {
@@ -32,13 +29,11 @@ class CategoryController extends ControllerBase<ICategoryModel> implements ICate
             var item: ICategoryModel = <ICategoryModel>req.body;
 
             this._catService.createCategory(item, (error, result) => {
-               this.handleResponse(res, error, result);
+                this.handleResponse(res, error, result);
             });
         }
-        catch (e) {
-            console.log(e);
-            res.send({ "error": e });
-
+        catch (errorInfo) {
+            this.handleResponse(res, errorInfo, null);
         }
     }
 
@@ -50,9 +45,8 @@ class CategoryController extends ControllerBase<ICategoryModel> implements ICate
                 this.handleResponse(res, error, result);
             });
         }
-        catch (e) {
-            res.send({ "error": e });
-
+        catch (errorInfo) {
+            this.handleResponse(res, errorInfo, null);
         }
     }
 }

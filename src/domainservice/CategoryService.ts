@@ -27,6 +27,7 @@ class CategoryService extends ServiceBase<ICategoryModel> implements ICategorySe
             }
             return catList;
         })).then((catList: ICategoryModel[]) => {
+            
             if (catEntity && catEntity.parent) {
                 return this._categoryRep.findById(catEntity.parent);
             } else {
@@ -51,7 +52,7 @@ class CategoryService extends ServiceBase<ICategoryModel> implements ICategorySe
                 return null;
             }
             callback(null, postEntity);
-        }).catch(null, (error: any) => {
+        }).catch((error: any) => {
             callback(error, null);
         });
     }
