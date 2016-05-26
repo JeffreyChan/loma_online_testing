@@ -13,8 +13,9 @@ class QuestionSchema {
             title: { type: String, index: 1, required: true, unique: true, dropDups: true },
             tip: { type: String },
             correct: { type: Schema.Types.ObjectId, ref: 'QuestionOption' },
-            options: [{ type: Schema.Types.ObjectId, required: true, ref: 'QuestionOption' }],
-            create_date: { type: Date, default: Date.now },
+            options: [{ type: Schema.Types.ObjectId, required: true,  index: '2d', ref: 'QuestionOption' }],
+            random: { type: [Number], default:  () => { return [Math.random(), Math.random()] }, index: '2d' },
+            create_date: { type: Date, default: Date.now }
         }, { collection: 'questions' });
         questionSchema.plugin(uniqueValidator);
         return questionSchema;

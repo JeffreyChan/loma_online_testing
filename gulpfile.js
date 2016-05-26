@@ -7,7 +7,7 @@ const tslint = require('gulp-tslint');
 
 const nodemon = require("gulp-nodemon");
 
-gulp.task("default", ["compile","watch", "nodemon"]);
+gulp.task("default", ["compile","assets", "watch", "nodemon"]);
 
 // clean the contents of the distribution directory
 gulp.task("clean", function () {
@@ -25,6 +25,12 @@ gulp.task("compile", function () {
     .pipe(typescript(tscConfig.compilerOptions))
     .pipe(sourcemaps.write("."))      // <--- sourcemaps
     .pipe(gulp.dest("dist"));
+});
+
+// copy static assets - i.e. non TypeScript compiled source
+gulp.task("assets", function() {
+  return gulp.src(['src/**/*', "index.html", '!src/**/*.ts'])
+    .pipe(gulp.dest('dist'))
 });
 
 gulp.task("nodemon", function () {

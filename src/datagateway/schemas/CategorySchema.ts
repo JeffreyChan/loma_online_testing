@@ -13,7 +13,7 @@ class CategorySchema {
             desc: { type: String },
             parent: { type: Schema.Types.ObjectId, ref: 'Category' },
             childrens: [{ type: Schema.Types.ObjectId, ref: 'Category' }],
-            create_date: { type: Date, default: Date.now },
+            create_date: { type: Date, default: Date.now }
         }, { collection: 'categories' });
         catSchema.plugin(uniqueValidator);
         return catSchema;
