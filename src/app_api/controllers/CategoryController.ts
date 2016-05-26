@@ -16,28 +16,16 @@ class CategoryController extends ControllerBase<ICategoryModel> implements ICate
     }
     getRootCategory(req: express.Request, res: express.Response): void {
 
-        res.json({
-            "success": "success",
-            "entity": "hello for test"
-        });
-        /*try {
-            this._catService.getRootCategory(true, (error, result) => {
-                if (error) {
-                    res.json({ "error": error });
-                }
-                else {
-                    res.json({
-                        "success": "success",
-                        "entity": result
-                    });
-                }
+        try {
+            this._catService.getRootCategory((error, result) => {
+               this.handleResponse(res, error, result);
             });
         }
         catch (e) {
             console.log(e);
             res.send({ "error": e });
 
-        }*/
+        }
     }
     createCategory(req: express.Request, res: express.Response): void {
         try {

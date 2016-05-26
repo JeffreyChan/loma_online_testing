@@ -94,14 +94,14 @@ class CategoryService extends ServiceBase<ICategoryModel> implements ICategorySe
         });
     }
 
-    getRootCategory(isAppendChild: boolean, callback: (error: any, result: any) => void) {
-        /*this._categoryRep.getRootCategory(isAppendChild).then((entity: any) => {
-            if (entity) {
-                callback(null, entity);
-            } else {
-                callback({error:"something wrong"}, null);
-            }
-        });*/
+    getRootCategory(callback: (error: any, result: any) => void) {
+        Promise.resolve(this._categoryRep.getRootCategory().then((catList: ICategoryModel[]) => {
+            return catList;
+        })).then((catList: ICategoryModel[]) => {
+            callback(null, catList);
+        }).catch((error: any) => {
+            callback(error, null);
+        });
     }
 }
 
