@@ -49,6 +49,20 @@ class CategoryController extends ControllerBase<ICategoryModel> implements ICate
             this.handleResponse(res, errorInfo, null);
         }
     }
+
+    updateCategory(req: express.Request, res: express.Response): void {
+        try {
+            var entityId: string = req.params.id;
+            var item: ICategoryModel = <ICategoryModel>req.body;
+            item._id = entityId;
+            this._catService.updateCategory(item, (error, result) => {
+                this.handleResponse(res, error, result);
+            });
+        }
+        catch (errorInfo) {
+            this.handleResponse(res, errorInfo, null);
+        }
+    }
 }
 
 Object.seal(CategoryController);

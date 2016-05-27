@@ -85,13 +85,11 @@ class ControllerBase<T extends IEnityModel>{
         try {
 
             this._service.retrieve((error, result) => {
-                if (error) res.send({ "error": error });
-                else res.send(result);
+               this.handleResponse(res, error, result);
             });
         }
-        catch (e) {
-            console.log(e);
-            res.send({ "error": "error in your request" });
+        catch (errorInfo) {
+            this.handleResponse(res, errorInfo, null);
         }
     }
 }

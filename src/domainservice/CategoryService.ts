@@ -27,7 +27,7 @@ class CategoryService extends ServiceBase<ICategoryModel> implements ICategorySe
             }
             return catList;
         })).then((catList: ICategoryModel[]) => {
-            
+
             if (catEntity && catEntity.parent) {
                 return this._categoryRep.findById(catEntity.parent);
             } else {
@@ -52,6 +52,24 @@ class CategoryService extends ServiceBase<ICategoryModel> implements ICategorySe
                 return null;
             }
             callback(null, postEntity);
+        }).catch((error: any) => {
+            callback(error, null);
+        });
+    }
+
+    updateCategory(catEntity: ICategoryModel, callback: (error: any, result: any) => void) {
+        let dbCat: ICategoryModel;
+        Promise.resolve(this._categoryRep.findById(catEntity._id).then((getCat: ICategoryModel) => {
+            if (!getCat) {
+                throw new Error("can not find this category");
+            }
+            return getCat;
+        })).then((cat: ICategoryModel) => {
+            dbCat = cat;
+            return this._categoryRep.update(dbCat._id, { name: catEntity.name, desc: catEntity.desc });
+        }).then((updateInfo: any) => {
+            dbCat = Utilities.Extend(dbCat, catEntity);
+            callback(null, dbCat);
         }).catch((error: any) => {
             callback(error, null);
         });

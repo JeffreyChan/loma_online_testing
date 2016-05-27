@@ -15,11 +15,10 @@ class CategoryRepository extends RepositoryBase<ICategoryModel> implements ICate
 
     getRootCategory(): mongoose.Promise<ICategoryModel[]> {
 
-         return this._dbcontext.find({parent:null}).select("_id name").exec();
+        return this._dbcontext.find({ parent: null }).select("_id name").exec();
     }
-    
-    removeCategoryList(doc:Object): mongoose.Promise<ICategoryModel[]>
-    {
+
+    removeCategoryList(doc: Object): mongoose.Promise<ICategoryModel[]> {
         return this._dbcontext.remove(doc).exec();
     }
 }
