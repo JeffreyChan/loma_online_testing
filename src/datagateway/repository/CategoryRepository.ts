@@ -21,6 +21,11 @@ class CategoryRepository extends RepositoryBase<ICategoryModel> implements ICate
     removeCategoryList(doc: Object): mongoose.Promise<ICategoryModel[]> {
         return this._dbcontext.remove(doc).exec();
     }
+    
+    getCategories (skip:number, limit:number) : mongoose.Promise<ICategoryModel[]>
+    {
+        return this._dbcontext.find({},"-childrens",{skip:skip, limit:limit, sort:"name"}).exec();
+    }
 }
 
 Object.seal(CategoryRepository);

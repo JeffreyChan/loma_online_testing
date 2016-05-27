@@ -18,6 +18,26 @@ class CategoryService extends ServiceBase<ICategoryModel> implements ICategorySe
         this._categoryRep = categoryRep;
     }
 
+    getCategories(page: number, size: number, callback: (error: any, result: any) => void): void {
+        let totalCount: number = 0;
+        let skip: number = ((page - 1) * size);
+        Promise.resolve(this._categoryRep.count().then((totalNum: number) => {
+            if (totalNum <= 0) {
+                throw new Error("no category found, please try other!");
+            }
+            totalCount = totalNum;
+            return totalNum;
+        })).then((count: number) => {
+            return this._categoryRep.getCategories(skip, size);
+        }).then((catDataList: ICategoryModel[]) => {
+            callback(null, {
+                totalNum: totalCount,
+                data: catDataList
+            });
+        }).catch((error: any) => {
+            callback(error, null);
+        });;
+    }
     createCategory(catEntity: ICategoryModel, callback: (error: any, result: any) => void) {
         var parentCat: ICategoryModel;
         var postEntity: ICategoryModel;

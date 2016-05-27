@@ -6,5 +6,6 @@ interface ICategoryService extends IServiceBase<ICategoryModel> {
     updateCategory:(item: ICategoryModel, callback: (error: any, result: any) => void) => void;
     removeCategory: (id: string, callback: (error: any, result: any) => void) => void;
     getRootCategory: (callback: (error: any, result: any) => void) => void;
+    getCategories: (page:number, size:number, callback: (error: any, result: any) => void) => void;
 }
 export = ICategoryService;

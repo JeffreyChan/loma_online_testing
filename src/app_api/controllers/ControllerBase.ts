@@ -83,7 +83,6 @@ class ControllerBase<T extends IEnityModel>{
 
     retrieve(req: express.Request, res: express.Response): void {
         try {
-
             this._service.retrieve((error, result) => {
                this.handleResponse(res, error, result);
             });

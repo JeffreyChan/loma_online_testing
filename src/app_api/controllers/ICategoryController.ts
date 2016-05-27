@@ -7,5 +7,6 @@ interface ICategoryController extends IControllerBase<ICategoryModel> {
     getRootCategory: express.RequestHandler;
     removeCategory: express.RequestHandler;
     updateCategory: express.RequestHandler;
+    getCategories: express.RequestHandler;
 }
 export = ICategoryController;  

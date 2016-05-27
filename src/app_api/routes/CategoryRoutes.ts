@@ -14,7 +14,7 @@ class CategoryRoutes {
         router.get("/category/root/", this._controller.getRootCategory.bind(this._controller));
         router.get("/category/:id", this._controller.findById.bind(this._controller));
 
-        router.get("/category", this._controller.retrieve.bind(this._controller));
+        router.get("/category", this._controller.getCategories.bind(this._controller));
         router.post("/category", this._controller.createCategory.bind(this._controller));
         router.put("/category/:id", this._controller.updateCategory.bind(this._controller));
         router.delete("/category/:id", this._controller.removeCategory.bind(this._controller));

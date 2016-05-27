@@ -29,6 +29,10 @@ class RepositoryBase<T extends IEnityModel> {
         return this._model.findById(entityId).exec();
     }
 
+    count(): mongoose.Promise<number> {
+        return this._model.count({}).exec();
+    }
+
 
     private toObjectId(id: string): mongoose.Types.ObjectId {
         return new mongoose.Types.ObjectId(id)
