@@ -17,6 +17,10 @@ class CategoryRepository extends RepositoryBase<ICategoryModel> implements ICate
 
         return this._dbcontext.find({ parent: null }).select("_id name").exec();
     }
+    
+    getChildCategories(): mongoose.Promise<ICategoryModel[]> {
+        return this._dbcontext.find({ parent: {$ne:null} }).populate({path:"parent", select:"name"}).select("_id name parent").exec();
+    }
 
     removeCategoryList(doc: Object): mongoose.Promise<ICategoryModel[]> {
         return this._dbcontext.remove(doc).exec();

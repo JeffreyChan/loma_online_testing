@@ -24,6 +24,17 @@ class CategoryController extends ControllerBase<ICategoryModel> implements ICate
             this.handleResponse(res, errorInfo, null);
         }
     }
+    
+    getChildCategories(req: express.Request, res: express.Response): void {
+        try {
+            this._catService.getChildCategories((error, result) => {
+                this.handleResponse(res, error, result);
+            });
+        }
+        catch (errorInfo) {
+            this.handleResponse(res, errorInfo, null);
+        }
+    }
 
     getCategories(req: express.Request, res: express.Response): void {
         try {

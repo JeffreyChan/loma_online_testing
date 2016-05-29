@@ -16,6 +16,10 @@ class RepositoryBase<T extends IEnityModel> {
     retrieve(options: Object): mongoose.Promise<IEnityModel[]> {
         return this._model.find(options).exec();
     }
+    
+    findOne(options: Object): mongoose.Promise<IEnityModel[]> {
+        return this._model.find(options).exec();
+    }
 
     update(entityId: string, entity: any): mongoose.Promise<IEnityModel> {
         return this._model.update({ _id: entityId }, entity).exec();

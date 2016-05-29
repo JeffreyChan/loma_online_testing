@@ -1,4 +1,5 @@
 import Promise = require('bluebird');
+import _ = require("underscore");
 
 import CategoryRepository = require("./../datagateway/repository/CategoryRepository");
 import ICategoryRepository = require("./../datagateway/repository/ICategoryRepository");
@@ -38,6 +39,27 @@ class CategoryService extends ServiceBase<ICategoryModel> implements ICategorySe
             callback(error, null);
         });;
     }
+
+    getChildCategories(callback: (error: any, result: any) => void): void {
+         Promise.resolve(this._categoryRep.getChildCategories().then((catList:ICategoryModel[]) => {
+             if(Utilities.isNullorEmpty(catList)) {
+                 throw new Error("no child categories found, please try other!");
+             }
+             return catList;
+         })).then((catList:ICategoryModel[]) => {
+             let flatCatList = _.map(catList, (item:ICategoryModel) => {
+                 return {
+                     _id:item._id,
+                     name:item.name,
+                     parentname:item.parent.name
+                 }
+             });
+             callback(null, flatCatList);
+         }).catch((error:any) => {
+             callback(error, null);
+         });
+    }
+    
     createCategory(catEntity: ICategoryModel, callback: (error: any, result: any) => void) {
         var parentCat: ICategoryModel;
         var postEntity: ICategoryModel;

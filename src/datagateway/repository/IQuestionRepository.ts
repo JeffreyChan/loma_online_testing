@@ -4,7 +4,7 @@ import IRepositoryBase = require("./IRepositoryBase");
 import IQuestionModel = require("./../../domainmodel/IQuestionModel");
 
 interface IQuestionRepository extends IRepositoryBase<IQuestionModel>{ 
-    
+    getQuestions: (skip:number, limit:number) => mongoose.Promise<IQuestionModel[]>; 
 } 
 
 export = IQuestionRepository;

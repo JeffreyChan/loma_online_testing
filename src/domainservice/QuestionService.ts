@@ -31,6 +31,27 @@ class QuestionService extends ServiceBase<IQuestionModel> implements IQuestionSe
         this._questionOptionRep = new QuestionOptionRepository();
         this._categoryRep = new CategoryRepository();
     }
+    
+     getQuestions(page: number, size: number, callback: (error: any, result: any) => void): void {
+        let totalCount: number = 0;
+        let skip: number = ((page - 1) * size);
+        Promise.resolve(this._questionRep.count().then((totalNum: number) => {
+            if (totalNum <= 0) {
+                throw new Error("no question found, please try other!");
+            }
+            totalCount = totalNum;
+            return totalNum;
+        })).then((count: number) => {
+            return this._questionRep.getQuestions(skip, size);
+        }).then((questionDataList: IQuestionModel[]) => {
+            callback(null, {
+                totalNum: totalCount,
+                data: questionDataList
+            });
+        }).catch((error: any) => {
+            callback(error, null);
+        });;
+    }
 
     private validtorOptions(question: IQuestionModel): void {
         if (question.options.length !== 4) {
@@ -60,10 +81,15 @@ class QuestionService extends ServiceBase<IQuestionModel> implements IQuestionSe
             }
             return cat;
         })).then((cat: ICategoryModel) => {
-            if (!Utilities.isNullorEmpty(cat.childrens)) {
+            category = cat;
+            return this._questionRep.findOne({ title: question.title, category: question.category });
+        }).then((findQuestions: IQuestionModel[]) => {
+            if (findQuestions) {
+                throw new Error("the question exists under this category, please try other!");
+            }
+            if (!Utilities.isNullorEmpty(category.childrens)) {
                 throw new Error("the question category only can be selected in level, please try other!");
             }
-            category = cat;
             return this._questionOptionRep.createList(question.options);
         }).then((questionOptions: IQuestionOptionModel[]) => {
             let rightAnswer = _.find(questionOptions, (item: IQuestionOptionModel) => {

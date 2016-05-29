@@ -6,5 +6,6 @@ interface IQuestionController extends IControllerBase<IQuestionModel> {
     createQuestion: express.RequestHandler;
     updateQuestion: express.RequestHandler;
     removeQuestion: express.RequestHandler;
+    getQuestions: express.RequestHandler;
 }
 export = IQuestionController;  

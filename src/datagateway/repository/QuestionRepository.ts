@@ -14,6 +14,11 @@ class QuestionRepository extends RepositoryBase<IQuestionModel> implements IQues
         super(dbcontext);
         this._dbcontext = dbcontext;
     }
+    
+    getQuestions (skip:number, limit:number) : mongoose.Promise<IQuestionModel[]>
+    {
+        return this._dbcontext.find({},"-options",{skip:skip, limit:limit, sort:"category"}).populate("category").exec();
+    }
 }
 
 Object.seal(QuestionRepository);

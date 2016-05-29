@@ -11,6 +11,7 @@ class CategoryRoutes {
     }
     get routes() {
 
+        router.get("/category/child/", this._controller.getChildCategories.bind(this._controller));
         router.get("/category/root/", this._controller.getRootCategory.bind(this._controller));
         router.get("/category/:id", this._controller.findById.bind(this._controller));
 

@@ -20,6 +20,19 @@ class QuestionController extends ControllerBase<IQuestionModel> implements IQues
         super(questionService);
         this._questionService = questionService;
     }
+    
+    getQuestions(req: express.Request, res: express.Response): void {
+        try {
+            let page = parseInt(req.query.page) || 1;
+            let size = parseInt(req.query.size) || 10;
+            this._questionService.getQuestions(page, size, (error, result) => {
+                this.handleResponse(res, error, result);
+            });
+        }
+        catch (errorInfo) {
+            this.handleResponse(res, errorInfo, null);
+        }
+    }
 
     private validtorQuestion(question: IQuestionModel): void {
         if (Utilities.isNullorEmpty(question)) {
