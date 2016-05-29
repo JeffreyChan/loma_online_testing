@@ -5,6 +5,7 @@ import IQuestionService = require("./../../domainservice/IQuestionService");
 import QuestionService = require("./../../domainservice/QuestionService");
 
 import IQuestionModel = require("./../../domainmodel/IQuestionModel");
+import IQuestionOptionModel = require("./../../domainmodel/IQuestionOptionModel");
 
 import IQuestionController = require("./IQuestionController");
 import ControllerBase = require("./ControllerBase");
@@ -20,7 +21,36 @@ class QuestionController extends ControllerBase<IQuestionModel> implements IQues
         super(questionService);
         this._questionService = questionService;
     }
-    
+
+    updateOption(req: express.Request, res: express.Response): void {
+        try {
+            let optionId: string = req.params.id;
+            let option: IQuestionOptionModel = <IQuestionOptionModel>req.body;
+            option._id = optionId;
+            if (Utilities.isNullorEmpty(option.answer)) {
+                throw new Error("option answer can't be empty!");
+            }
+
+            this._questionService.updateOption(option, (error, result) => {
+                this.handleResponse(res, error, result);
+            });
+        }
+        catch (errorInfo) {
+            this.handleResponse(res, errorInfo, null);
+        }
+    }
+    getQuestionById(req: express.Request, res: express.Response): void {
+        try {
+            let entityId: string = req.params.id;
+            this._questionService.getQuestionById(entityId, (error, result) => {
+                this.handleResponse(res, error, result);
+            });
+        }
+        catch (errorInfo) {
+            this.handleResponse(res, errorInfo, null);
+        }
+    }
+
     getQuestions(req: express.Request, res: express.Response): void {
         try {
             let page = parseInt(req.query.page) || 1;
@@ -75,7 +105,7 @@ class QuestionController extends ControllerBase<IQuestionModel> implements IQues
             this.handleResponse(res, errorInfo, null);
         }
     }
-    removeQuestion(req: express.Request, res: express.Response) :void{
+    removeQuestion(req: express.Request, res: express.Response): void {
         try {
             let questionId = req.params.id;
 

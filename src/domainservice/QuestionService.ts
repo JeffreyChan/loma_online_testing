@@ -31,8 +31,38 @@ class QuestionService extends ServiceBase<IQuestionModel> implements IQuestionSe
         this._questionOptionRep = new QuestionOptionRepository();
         this._categoryRep = new CategoryRepository();
     }
-    
-     getQuestions(page: number, size: number, callback: (error: any, result: any) => void): void {
+
+    updateOption(option: IQuestionOptionModel, callback: (error: any, result: any) => void): void {
+        let returnOption: IQuestionOptionModel;
+        Promise.resolve(this._questionOptionRep.findById(option._id).then((dbOption: IQuestionOptionModel) => {
+            if (Utilities.isNullorEmpty(dbOption)) {
+                throw new Error("the question option do not exists, please try other!");
+            }
+            returnOption = dbOption;
+            return dbOption;
+        })).then((dbOption: IQuestionOptionModel) => {
+            return this._questionOptionRep.update(option._id, { answer: option.answer });
+        }).then((updateInfo: any) => {
+            returnOption.answer = option.answer;
+            callback(null, returnOption);
+        }).catch((error: any) => {
+            callback(error, null);
+        });
+    }
+
+    getQuestionById(questionId, callback: (error: any, result: any) => void): void {
+        Promise.resolve(this._questionRep.getQuestionById(questionId).then((findQuesion: IQuestionModel) => {
+            if (Utilities.isNullorEmpty(findQuesion)) {
+                throw new Error("the question do not exists, please try other!");
+            }
+            return findQuesion;
+        })).then((item: IQuestionModel) => {
+            callback(null, item);
+        }).catch((error: any) => {
+            callback(error, null);
+        });
+    }
+    getQuestions(page: number, size: number, callback: (error: any, result: any) => void): void {
         let totalCount: number = 0;
         let skip: number = ((page - 1) * size);
         Promise.resolve(this._questionRep.count().then((totalNum: number) => {
@@ -44,13 +74,22 @@ class QuestionService extends ServiceBase<IQuestionModel> implements IQuestionSe
         })).then((count: number) => {
             return this._questionRep.getQuestions(skip, size);
         }).then((questionDataList: IQuestionModel[]) => {
+            let flatQuestions = _.map(questionDataList, (item: IQuestionModel) => {
+                return {
+                    _id: item._id,
+                    category: item.category.name,
+                    title: item.title,
+                    tip: item.tip,
+                    create_date: item.create_date
+                };
+            });
             callback(null, {
                 totalNum: totalCount,
-                data: questionDataList
+                data: flatQuestions
             });
         }).catch((error: any) => {
             callback(error, null);
-        });;
+        });
     }
 
     private validtorOptions(question: IQuestionModel): void {
@@ -82,9 +121,10 @@ class QuestionService extends ServiceBase<IQuestionModel> implements IQuestionSe
             return cat;
         })).then((cat: ICategoryModel) => {
             category = cat;
+            console.log(cat._id);
             return this._questionRep.findOne({ title: question.title, category: question.category });
         }).then((findQuestions: IQuestionModel[]) => {
-            if (findQuestions) {
+            if (!Utilities.isNullorEmpty(findQuestions)) {
                 throw new Error("the question exists under this category, please try other!");
             }
             if (!Utilities.isNullorEmpty(category.childrens)) {
@@ -111,7 +151,7 @@ class QuestionService extends ServiceBase<IQuestionModel> implements IQuestionSe
         this.validtorOptions(question);
 
         let dbCategory: ICategoryModel;
-        let dbQuestion: any;
+        let dbQuestionInfo: any;
         let dbOptionIdsList = [];
         let dbRightOptionId: any;
         let rightOptionId: any;
@@ -154,13 +194,13 @@ class QuestionService extends ServiceBase<IQuestionModel> implements IQuestionSe
             let updateOption = { category: dbCategory._id, tip: question.tip, title: question.title, correct: rightOptionId };
 
             return this._questionRep.update(question._id, updateOption);
-        }).then((tmpQuestion: IQuestionModel) => {
-            dbQuestion = tmpQuestion;
+        }).then((tmpQuestion: any) => {
+            dbQuestionInfo = tmpQuestion;
             return this._questionOptionRep.update(dbRightOptionId, { isCorrect: false });
-        }).then((rightOption: IQuestionOptionModel) => {
+        }).then((updateWrongInfo: any) => {
             return this._questionOptionRep.update(rightOptionId, { isCorrect: true });
-        }).then((wrongOption: IQuestionOptionModel) => {
-            callback(null, dbQuestion);
+        }).then((updateRightInfo: any) => {
+            callback(null, dbQuestionInfo);
         }).catch((error: any) => {
             callback(error, null);
         });
