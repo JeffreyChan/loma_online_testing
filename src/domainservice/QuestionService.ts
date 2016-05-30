@@ -123,7 +123,7 @@ class QuestionService extends ServiceBase<IQuestionModel> implements IQuestionSe
             category = cat;
             console.log(cat._id);
             return this._questionRep.findOne({ title: question.title, category: question.category });
-        }).then((findQuestions: IQuestionModel[]) => {
+        }).then((findQuestions: IQuestionModel) => {
             if (!Utilities.isNullorEmpty(findQuestions)) {
                 throw new Error("the question exists under this category, please try other!");
             }

@@ -10,7 +10,7 @@ var port = parseInt(process.env.PORT, 10) || 2000;
 app.set("port", port);
 app.use(cors({
 	allowedOrigins: [
-		'http://localhost:3000', 'google.com'
+		'http://localhost:3000', 'http://10.248.36.95:3000'
 	]
 }))
 app.use(express.static(path.join(__dirname, 'public')));

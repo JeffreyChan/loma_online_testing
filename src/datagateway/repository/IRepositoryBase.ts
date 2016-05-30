@@ -7,7 +7,7 @@ interface IRepositoryBase<T extends IEnityModel> {
         read operation
     */
     retrieve: (options : Object) => mongoose.Promise<IEnityModel[]>;
-    findOne: (options : Object) => mongoose.Promise<IEnityModel[]>;
+    findOne: (options : Object) => mongoose.Promise<IEnityModel>;
     findById: (entityId: string) => mongoose.Promise<IEnityModel>;
     count: () => mongoose.Promise<number>;
    
