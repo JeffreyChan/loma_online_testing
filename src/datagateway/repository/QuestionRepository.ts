@@ -28,7 +28,7 @@ class QuestionRepository extends RepositoryBase<IQuestionModel> implements IQues
             .find(cond)
             .populate("options", "answer")
             .where('random')
-            .select("title tip")
+            .select("title tip options.anwser")
             .near([Math.random(), Math.random()])
             .exec();
     }

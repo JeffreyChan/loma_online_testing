@@ -1,4 +1,3 @@
-const uniqueValidator = require('mongoose-unique-validator');
 import DataAccess = require("./../DataAccess");
 import ICategory = require("./../../domainmodel/ICategoryModel");
 
@@ -15,7 +14,6 @@ class CategorySchema {
             childrens: [{ type: Schema.Types.ObjectId, ref: 'Category' }],
             create_date: { type: Date, default: Date.now }
         }, { collection: 'categories' });
-        catSchema.plugin(uniqueValidator);
         return catSchema;
     }
 }

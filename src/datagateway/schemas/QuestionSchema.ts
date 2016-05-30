@@ -1,4 +1,3 @@
-const uniqueValidator = require('mongoose-unique-validator');
 import DataAccess = require("./../DataAccess");
 import IQuestionModel = require("./../../domainmodel/IQuestionModel");
 
@@ -17,7 +16,6 @@ class QuestionSchema {
             random: { type: [Number], default:  () => { return [Math.random(), Math.random()] }, index: '2d' },
             create_date: { type: Date, default: Date.now }
         }, { collection: 'questions' });
-        questionSchema.plugin(uniqueValidator);
         return questionSchema;
     }
 }

@@ -1,4 +1,3 @@
-const uniqueValidator = require('mongoose-unique-validator');
 import DataAccess = require("./../DataAccess");
 import IQuestionOptionModel = require("./../../domainmodel/IQuestionOptionModel");
 
@@ -13,7 +12,6 @@ class QuestionOptionSchema {
       isCorrect: Boolean,
       create_date: { type: Date, default: Date.now }
     }, { collection: 'questionOptions' });
-    optionSchema.plugin(uniqueValidator);
     return optionSchema;
   }
 }
