@@ -1,6 +1,7 @@
 import mongoose = require("mongoose");
 
 import ICategoryModel = require("./../../domainmodel/ICategoryModel");
+import IEntityModel = require("./../../domainmodel/IEntityModel");
 import CategorySchema = require("./../schemas/CategorySchema");
 import RepositoryBase = require("./RepositoryBase");
 import ICategoryRepository = require("./ICategoryRepository");
@@ -22,7 +23,7 @@ class CategoryRepository extends RepositoryBase<ICategoryModel> implements ICate
         return this._dbcontext.find({ parent: {$ne:null} }).populate({path:"parent", select:"name"}).select("_id name parent").sort("name").exec();
     }
 
-    removeCategoryList(doc: Object): mongoose.Promise<ICategoryModel[]> {
+    removeCategoryList(doc: Object): mongoose.Promise<IEntityModel> {
         return this._dbcontext.remove(doc).exec();
     }
     

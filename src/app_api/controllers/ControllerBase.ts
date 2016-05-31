@@ -1,12 +1,12 @@
 import express = require("express");
 import IServiceBase = require("./../../domainservice/IServiceBase.ts");
 import ServiceBase = require("./../../domainservice/ServiceBase.ts");
-import IEnityModel = require("./../../domainmodel/IEntityModel");
+import IEntityModel = require("./../../domainmodel/IEntityModel");
 
 import Utilities = require("./../../domainmodel/Utilities");
 
 
-class ControllerBase<T extends IEnityModel>{
+class ControllerBase<T extends IEntityModel>{
     private _service: IServiceBase<T>;
     constructor(service) {
         this._service = service;
@@ -31,7 +31,7 @@ class ControllerBase<T extends IEnityModel>{
     create(req: express.Request, res: express.Response): void {
         try {
             var entity: T = <T>req.body;
-            this._service.create(entity, (error, postEntity: IEnityModel) => {
+            this._service.create(entity, (error, postEntity: IEntityModel) => {
                 this.handleResponse(res, error, postEntity);
             });
         }

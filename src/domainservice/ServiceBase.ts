@@ -1,8 +1,8 @@
 import mongoose = require("mongoose");
 import IRepositoryBase = require("./../datagateway/repository/IRepositoryBase");
-import IEnityModel = require("./../domainmodel/IEntityModel");
+import IEntityModel = require("./../domainmodel/IEntityModel");
 
-class ServiceBase<T extends IEnityModel> {
+class ServiceBase<T extends IEntityModel> {
     private _repository: IRepositoryBase<T>;
 
     constructor(repository: IRepositoryBase<T>) {
@@ -10,7 +10,7 @@ class ServiceBase<T extends IEnityModel> {
     }
 
     create(item: T, callback: (error: any, result: any) => void) {
-        this._repository.create(item).then((postEntity: IEnityModel) => {
+        this._repository.create(item).then((postEntity: IEntityModel) => {
             if (!postEntity) {
                 throw new Error('can not find category');
             }
@@ -21,7 +21,7 @@ class ServiceBase<T extends IEnityModel> {
     }
 
     retrieve(callback: (error: any, result: any) => void) {
-        this._repository.retrieve({}).then((itemList: IEnityModel[]) => {
+        this._repository.retrieve({}).then((itemList: IEntityModel[]) => {
             callback(null, itemList);
         }).then(null, (error: any) => {
             callback(error, null);
@@ -30,7 +30,7 @@ class ServiceBase<T extends IEnityModel> {
 
     update(id: string, item: any, callback: (error: any, result: any) => void) {
 
-        this._repository.update(id, item).then((entity: IEnityModel) => {
+        this._repository.update(id, item).then((entity: IEntityModel) => {
             if (!entity) {
                 throw new Error('can not find category');
             }
@@ -41,7 +41,7 @@ class ServiceBase<T extends IEnityModel> {
     }
 
     remove(entityId: string, callback: (error: any, enitty: any) => void) {
-        this._repository.remove(entityId).then((entity: IEnityModel) => {
+        this._repository.remove(entityId).then((entity: IEntityModel) => {
             callback(null, entity);
         }).then(null, (error: any) => {
             callback(error, null);
@@ -49,7 +49,7 @@ class ServiceBase<T extends IEnityModel> {
     }
 
     findById(id: string, callback: (error: any, result: any) => void) {
-        this._repository.findById(id).then((entity: IEnityModel) => {
+        this._repository.findById(id).then((entity: IEntityModel) => {
             if (!entity) {
                 throw new Error('can not find category');
             }

@@ -147,7 +147,7 @@ class ExamService extends ServiceBase<IExamRecordModel> implements IExamService 
                 return this._questionRep.findOne({ category: cat._id });
             })
             .then((question: IQuestionModel) => {
-                var waitFor;
+                let waitFor:any;
                 if (Utilities.isNullorEmpty(question)) {
                     randomFlag = 1;
                     waitFor = this._categoryRep.findById(dbCategory.parent);
@@ -162,7 +162,7 @@ class ExamService extends ServiceBase<IExamRecordModel> implements IExamService 
                 if (randomFlag === 0) {
                     return item;
                 } else {
-                    childCatIdList = dbCategory.childrens;
+                    childCatIdList = item.childrens;
                     return this._questionRep.getQuestionsByType({ category: { $in: childCatIdList } });
                 }
             })
