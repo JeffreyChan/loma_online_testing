@@ -38,10 +38,6 @@ class CategoryController extends ControllerBase<ICategoryModel> implements ICate
 
     getCategories(req: express.Request, res: express.Response): void {
         try {
-            let ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-            console.log(ip);
-            console.log(req.headers['x-forwarded-for']);
-            console.log(req.connection.remoteAddress);
             let page = parseInt(req.query.page) || 1;
             let size = parseInt(req.query.size) || 10;
             this._catService.getCategories(page, size, (error, result) => {
