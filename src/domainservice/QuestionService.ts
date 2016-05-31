@@ -121,7 +121,6 @@ class QuestionService extends ServiceBase<IQuestionModel> implements IQuestionSe
             return cat;
         })).then((cat: ICategoryModel) => {
             category = cat;
-            console.log(cat._id);
             return this._questionRep.findOne({ title: question.title, category: question.category });
         }).then((findQuestions: IQuestionModel) => {
             if (!Utilities.isNullorEmpty(findQuestions)) {

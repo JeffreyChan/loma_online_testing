@@ -148,7 +148,6 @@ class CategoryService extends ServiceBase<ICategoryModel> implements ICategorySe
             }
 
         }).then((childList: ICategoryModel[]) => {
-            console.log(childList);
             callback(null, delInfo);
         }).catch((error: any) => {
             callback(error, null);

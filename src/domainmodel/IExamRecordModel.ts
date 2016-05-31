@@ -4,7 +4,8 @@ interface IExamRecordModel extends IEntityModel {
     user: any;
     right: number;
     wrong: number;
-    answerQuestions: any[],
+    category:any;
+    answerQuestions: any[];
     create_date: Date;
 }
 

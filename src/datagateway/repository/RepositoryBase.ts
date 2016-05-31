@@ -14,7 +14,7 @@ class RepositoryBase<T extends IEnityModel> {
     }
 
     retrieve(options: Object): mongoose.Promise<IEnityModel[]> {
-        return this._model.find(options).exec();
+        return this._model.find(options || {}).exec();
     }
     
     findOne(options: Object): mongoose.Promise<IEnityModel> {
@@ -32,9 +32,9 @@ class RepositoryBase<T extends IEnityModel> {
     findById(entityId: string): mongoose.Promise<IEnityModel> {
         return this._model.findById(entityId).exec();
     }
-
-    count(): mongoose.Promise<number> {
-        return this._model.count({}).exec();
+    
+    count(cond?:Object): mongoose.Promise<number> {
+        return this._model.count(cond || {}).exec();
     }
 
 

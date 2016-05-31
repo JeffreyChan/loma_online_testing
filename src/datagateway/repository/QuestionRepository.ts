@@ -23,13 +23,22 @@ class QuestionRepository extends RepositoryBase<IQuestionModel> implements IQues
         return this._dbcontext.find({}, "-options -random -__v -correct", { skip: skip, limit: limit, sort: "category" }).populate("category", "name").exec();
     }
 
-    getQuestionsByCategory(cond: Object): mongoose.Promise<IQuestionModel[]> {
+    getQuestionsWithOption(cond: Object): mongoose.Promise<IQuestionModel[]> {
+        return this._dbcontext
+            .find(cond)
+            .populate("options")
+            .select("-category -create_date -random -__v")
+            .exec();
+    }
+
+    getQuestionsByType(cond: Object): mongoose.Promise<IQuestionModel[]> {
         return this._dbcontext
             .find(cond)
             .populate("options", "answer")
             .where('random')
-            .select("title tip options.anwser")
             .near([Math.random(), Math.random()])
+            .limit(60)
+            .select("title tip options")
             .exec();
     }
 }

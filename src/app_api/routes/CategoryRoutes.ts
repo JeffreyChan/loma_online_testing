@@ -9,6 +9,7 @@ class CategoryRoutes {
     constructor() {
         this._controller = new CategoryController();
     }
+
     get routes() {
 
         router.get("/category/child/", this._controller.getChildCategories.bind(this._controller));

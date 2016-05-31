@@ -55,7 +55,6 @@ class ServiceBase<T extends IEnityModel> {
             }
             callback(null, entity);
         }).then(null, (error: any) => {
-            console.log(error);
             callback(error, null);
         });
     }

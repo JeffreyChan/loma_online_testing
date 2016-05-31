@@ -11,6 +11,7 @@ class ExamRecordSchema {
             user: { type: String, index: 1, required: true, unique: true, dropDups: true },
             right: { type: Number },
             wrong: { type: Number },
+            category: { type: Schema.Types.ObjectId, index: 1, ref: 'Category' },
             answerQuestions: [
                 {
                     Q: {

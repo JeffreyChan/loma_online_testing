@@ -9,6 +9,8 @@ class QuestionRoutes {
     constructor() {
         this._controller = new QuestionController();
     }
+    
+    
     get routes() {
         router.put("/question/option/:id", this._controller.updateOption.bind(this._controller));
         router.get("/question/:id", this._controller.getQuestionById.bind(this._controller));

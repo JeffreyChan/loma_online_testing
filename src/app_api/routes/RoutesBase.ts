@@ -5,7 +5,7 @@ import ExamRoutes = require("./ExamRoutes");
 
 var app = express();
 class RoutesBase {
-
+    
     get routes() {
         app.use("/api", new QuestionRoutes().routes);
         app.use("/api", new CategoryRoutes().routes);

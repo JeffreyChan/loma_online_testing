@@ -10,7 +10,10 @@ class ExamRoutes {
         this._controller = new ExamController();
     }
     get routes() {
-        router.get("/exam/question/:id", this._controller.getQuestionsByCategory.bind(this._controller));
+        router.get("/exam/review/:id", this._controller.getReviewRcord.bind(this._controller));
+        router.get("/exam/question/:id", this._controller.getQuestionsByType.bind(this._controller));
+        router.get("/exam/record", this._controller.getExamRecords.bind(this._controller));
+        router.post("/exam/record", this._controller.createExamRecord.bind(this._controller));
         return router;
     }
 }
