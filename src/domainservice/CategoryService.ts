@@ -24,9 +24,6 @@ class CategoryService extends ServiceBase<ICategoryModel> implements ICategorySe
         let skip: number = ((page - 1) * size);
         Promise.resolve(this._categoryRep.count())
             .then((count: number) => {
-                if (count <= 0) {
-                    throw new Error("no category found, please try other!");
-                }
                 totalCount = count;
                 return this._categoryRep.getCategories(skip, size);
             })
@@ -35,9 +32,10 @@ class CategoryService extends ServiceBase<ICategoryModel> implements ICategorySe
                     totalNum: totalCount,
                     data: catDataList
                 });
-            }).catch((error: any) => {
+            })
+            .catch((error: any) => {
                 callback(error, null);
-            });;
+            });
     }
 
     getChildCategories(callback: (error: any, result: any) => void): void {

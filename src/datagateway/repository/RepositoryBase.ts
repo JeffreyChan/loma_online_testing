@@ -1,39 +1,43 @@
 import mongoose = require("mongoose");
-import IEnityModel = require("./../../domainmodel/IEntityModel");
+import IEntityModel = require("./../../domainmodel/IEntityModel");
 
-class RepositoryBase<T extends IEnityModel> {
+class RepositoryBase<T extends IEntityModel> {
 
-    private _model: mongoose.Model<IEnityModel>;
+    private _model: mongoose.Model<IEntityModel>;
 
-    constructor(schemaModel: mongoose.Model<IEnityModel>) {
+    constructor(schemaModel: mongoose.Model<IEntityModel>) {
         this._model = schemaModel;
     }
 
-    create(item: T): mongoose.Promise<IEnityModel> {
+    create(item: T): mongoose.Promise<IEntityModel> {
         return this._model.create(item);
     }
 
-    retrieve(options: Object): mongoose.Promise<IEnityModel[]> {
+    retrieve(options: Object): mongoose.Promise<IEntityModel[]> {
         return this._model.find(options || {}).exec();
     }
-    
-    findOne(options: Object): mongoose.Promise<IEnityModel> {
+
+    findOne(options: Object): mongoose.Promise<IEntityModel> {
         return this._model.findOne(options).exec();
     }
 
-    update(entityId: string, entity: any): mongoose.Promise<IEnityModel> {
+    update(entityId: string, entity: any): mongoose.Promise<IEntityModel> {
         return this._model.update({ _id: entityId }, entity).exec();
     }
 
-    remove(entityId: string): mongoose.Promise<IEnityModel> {
+    remove(entityId: string): mongoose.Promise<IEntityModel> {
         return this._model.remove({ _id: entityId }).exec();
     }
 
-    findById(entityId: string): mongoose.Promise<IEnityModel> {
+    removeBatch(cond?: Object): mongoose.Promise<IEntityModel> {
+        return this._model.remove(cond || {}).exec();
+    }
+
+    findById(entityId: string): mongoose.Promise<IEntityModel> {
         return this._model.findById(entityId).exec();
     }
-    
-    count(cond?:Object): mongoose.Promise<number> {
+
+    count(cond?: Object): mongoose.Promise<number> {
         return this._model.count(cond || {}).exec();
     }
 

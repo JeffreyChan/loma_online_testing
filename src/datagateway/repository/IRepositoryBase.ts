@@ -18,6 +18,7 @@ interface IRepositoryBase<T extends IEntityModel> {
     create(entity: T): mongoose.Promise<IEntityModel>;
     update(entityId: string, entity: any): mongoose.Promise<IEntityModel>;
     remove(entityId: string): mongoose.Promise<IEntityModel>;
+    removeBatch(cond?:Object): mongoose.Promise<IEntityModel>;
 }
 
 export = IRepositoryBase;

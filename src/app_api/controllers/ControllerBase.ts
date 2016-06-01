@@ -31,11 +31,14 @@ class ControllerBase<T extends IEntityModel>{
     create(req: express.Request, res: express.Response): void {
         try {
             var entity: T = <T>req.body;
+            if (Utilities.isNullorEmpty(entity)) {
+                throw new Error("body can't be null or empty");
+            }
             this._service.create(entity, (error, postEntity: IEntityModel) => {
                 this.handleResponse(res, error, postEntity);
             });
         }
-       catch (errorInfo) {
+        catch (errorInfo) {
             this.handleResponse(res, errorInfo, null);
         }
     }
@@ -60,6 +63,10 @@ class ControllerBase<T extends IEntityModel>{
         try {
             var entityId: string = req.params.id;
 
+            if (Utilities.isNullorEmpty(entityId)) {
+                throw new Error("entityId can not be empty!");
+            }
+
             this._service.remove(entityId, (error, result) => {
                 this.handleResponse(res, error, result);
             });
@@ -72,6 +79,10 @@ class ControllerBase<T extends IEntityModel>{
     findById(req: express.Request, res: express.Response): void {
         try {
             var entityId: string = req.params.id;
+            if (Utilities.isNullorEmpty(entityId)) {
+                throw new Error("entityId can not be empty!");
+            }
+            
             this._service.findById(entityId, (error: any, result: any) => {
                 this.handleResponse(res, error, result);
             });
@@ -84,7 +95,7 @@ class ControllerBase<T extends IEntityModel>{
     retrieve(req: express.Request, res: express.Response): void {
         try {
             this._service.retrieve((error, result) => {
-               this.handleResponse(res, error, result);
+                this.handleResponse(res, error, result);
             });
         }
         catch (errorInfo) {
