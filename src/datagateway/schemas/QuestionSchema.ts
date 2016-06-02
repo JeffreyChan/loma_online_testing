@@ -9,7 +9,7 @@ class QuestionSchema {
     static get schema() {
         let questionSchema = new Schema({
             category: { type: Schema.Types.ObjectId, ref: 'Category' },
-            title: { type: String, index: 1, required: true, unique: true, dropDups: true },
+            title: { type: String, required: true, unique: true, dropDups: true },
             tip: { type: String },
             correct: { type: Schema.Types.ObjectId, ref: 'QuestionOption' },
             options: [{ type: Schema.Types.ObjectId, required: true,  index: '2d', ref: 'QuestionOption' }],
