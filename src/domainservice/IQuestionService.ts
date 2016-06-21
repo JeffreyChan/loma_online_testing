@@ -8,6 +8,6 @@ interface IQuestionService extends IServiceBase<IQuestionModel> {
     updateQuestion(question: IQuestionModel, callback: (error: any, result: any) => void): void;
     removeQuestion(id: string, callback: (error: any, result: any) => void): void;
     getQuestionById(questionId, callback: (error: any, result: any) => void): void;
-    getQuestions(page: number, size: number, callback: (error: any, result: any) => void): void;
+    getQuestions(title:string, page: number, size: number, callback: (error: any, result: any) => void): void;
 }
 export = IQuestionService;

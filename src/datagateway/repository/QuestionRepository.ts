@@ -19,8 +19,8 @@ class QuestionRepository extends RepositoryBase<IQuestionModel> implements IQues
         return this._dbcontext.findOne({ _id: entityId }).populate("options", "isCorrect answer").exec();
     }
 
-    getQuestions(skip: number, limit: number): mongoose.Promise<IQuestionModel[]> {
-        return this._dbcontext.find({}, "-options -random -__v -correct", { skip: skip, limit: limit, sort: "category" }).populate("category", "name").exec();
+    getQuestions(cond:Object, skip: number, limit: number): mongoose.Promise<IQuestionModel[]> {
+        return this._dbcontext.find(cond, "-options -random -__v -correct", { skip: skip, limit: limit, sort: "category" }).populate("category", "name").exec();
     }
 
     getQuestionsWithOption(cond: Object): mongoose.Promise<IQuestionModel[]> {

@@ -55,7 +55,8 @@ class QuestionController extends ControllerBase<IQuestionModel> implements IQues
         try {
             let page = parseInt(req.query.page) || 1;
             let size = parseInt(req.query.size) || 10;
-            this._questionService.getQuestions(page, size, (error, result) => {
+            let title  = req.query.title || "";
+            this._questionService.getQuestions(title, page, size, (error, result) => {
                 this.handleResponse(res, error, result);
             });
         }

@@ -67,16 +67,22 @@ class QuestionService extends ServiceBase<IQuestionModel> implements IQuestionSe
                 callback(error, null);
             });
     }
-    getQuestions(page: number, size: number, callback: (error: any, result: any) => void): void {
+    getQuestions(title: string, page: number, size: number, callback: (error: any, result: any) => void): void {
         let totalCount: number = 0;
         let skip: number = ((page - 1) * size);
-        Promise.resolve(this._questionRep.count())
+        let cond: Object = {};
+        if (!Utilities.isNullorEmpty(title)) {
+            cond = { title: { $regex: "^" + title } };
+        }
+        Promise.resolve(this._questionRep.count(cond))
             .then((totalNum: number) => {
                 totalCount = totalNum;
                 return totalNum;
             })
             .then((count: number) => {
-                return this._questionRep.getQuestions(skip, size);
+
+                console.log(title);
+                return this._questionRep.getQuestions(cond, skip, size);
             })
             .then((questionDataList: IQuestionModel[]) => {
                 let flatQuestions = _.map(questionDataList, (item: IQuestionModel) => {
