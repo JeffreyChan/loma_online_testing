@@ -72,7 +72,7 @@ class QuestionService extends ServiceBase<IQuestionModel> implements IQuestionSe
         let skip: number = ((page - 1) * size);
         let cond: Object = {};
         if (!Utilities.isNullorEmpty(title)) {
-            cond = { title: { $regex: "^" + title } };
+            cond = { title: { $regex: title, $options:"i" } };
         }
         Promise.resolve(this._questionRep.count(cond))
             .then((totalNum: number) => {
