@@ -1,6 +1,6 @@
 import express = require("express");
-import IServiceBase = require("./../../domainservice/IServiceBase.ts");
-import ServiceBase = require("./../../domainservice/ServiceBase.ts");
+import IServiceBase = require("./../../domainservice/IServiceBase");
+import ServiceBase = require("./../../domainservice/ServiceBase");
 import IEntityModel = require("./../../domainmodel/IEntityModel");
 
 import Utilities = require("./../../domainmodel/Utilities");

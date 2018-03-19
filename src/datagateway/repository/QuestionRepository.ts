@@ -15,15 +15,15 @@ class QuestionRepository extends RepositoryBase<IQuestionModel> implements IQues
         this._dbcontext = dbcontext;
     }
 
-    getQuestionById(entityId: string): mongoose.Promise<IQuestionModel> {
+    getQuestionById(entityId: string): Promise<IQuestionModel> {
         return this._dbcontext.findOne({ _id: entityId }).populate("options", "isCorrect answer").exec();
     }
 
-    getQuestions(cond:Object, skip: number, limit: number): mongoose.Promise<IQuestionModel[]> {
+    getQuestions(cond:Object, skip: number, limit: number): Promise<IQuestionModel[]> {
         return this._dbcontext.find(cond, "-options -random -__v -correct", { skip: skip, limit: limit, sort: "category" }).populate("category", "name").exec();
     }
 
-    getQuestionsWithOption(cond: Object): mongoose.Promise<IQuestionModel[]> {
+    getQuestionsWithOption(cond: Object): Promise<IQuestionModel[]> {
         return this._dbcontext
             .find(cond)
             .populate("options")
@@ -31,7 +31,7 @@ class QuestionRepository extends RepositoryBase<IQuestionModel> implements IQues
             .exec();
     }
 
-    getQuestionsByType(cond: Object): mongoose.Promise<IQuestionModel[]> {
+    getQuestionsByType(cond: Object): Promise<IQuestionModel[]> {
         return this._dbcontext
             .find(cond)
             .populate("options", "answer")

@@ -15,15 +15,15 @@ class QuestionOptionRepository extends RepositoryBase<IQuestionOptionModel> impl
         this._dbcontext = dbcontext;
     }
 
-    createList(entityList: IQuestionOptionModel[]): mongoose.Promise<IQuestionOptionModel[]> {
+    createList(entityList: IQuestionOptionModel[]): Promise<IQuestionOptionModel[]> {
         return this._dbcontext.create(entityList);
     }
 
-    updateList(cond: Object, update: Object): mongoose.Promise<IQuestionOptionModel> {
+    updateList(cond: Object, update: Object): Promise<IQuestionOptionModel> {
         return this._dbcontext.update(cond, update, { multi: true }).exec();
     }
     
-    removeList (cond: Object) : mongoose.Promise<IQuestionOptionModel>{
+    removeList (cond: Object) : Promise<IQuestionOptionModel>{
         return this._dbcontext.remove(cond).exec();
     }
 }

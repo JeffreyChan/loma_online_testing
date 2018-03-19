@@ -1,9 +1,9 @@
+import Mongoose = require("mongoose");
 import DataAccess = require("./../DataAccess");
 import IQuestionModel = require("./../../domainmodel/IQuestionModel");
 
-let mongoose = DataAccess.mongooseInstance;
+let Schema = Mongoose.Schema;
 let mongooseConnection = DataAccess.mongooseConnection;
-let Schema = mongoose.Schema;
 
 class QuestionSchema {
     static get schema() {
