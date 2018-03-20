@@ -1,0 +1,13 @@
+{
+    "typescript.check.workspaceVersion": false,
+    "cSpell.words": [
+        "Nullor",
+        "childrens",
+        "datagateway",
+        "dbcontext",
+        "domainmodel",
+        "domainservice",
+        "dsphere",
+        "middlewares"
+    ]
+}

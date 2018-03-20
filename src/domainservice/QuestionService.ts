@@ -127,6 +127,7 @@ class QuestionService extends ServiceBase<IQuestionModel> implements IQuestionSe
     createQuestion(question: IQuestionModel, callback: (error: any, result: any) => void) {
         this.validtorOptions(question);
         let category: ICategoryModel;
+       
         Promise.resolve(this._categoryRep.findById(question.category))
             .then((cat: ICategoryModel) => {
                 if (Utilities.isNullorEmpty(cat)) {
@@ -154,7 +155,7 @@ class QuestionService extends ServiceBase<IQuestionModel> implements IQuestionSe
                 question.options = questionOptions;
                 question.correct = rightAnswer;
                 question.category = category;
-
+                
                 return this._questionRep.create(question);
             })
             .then((qes: IQuestionModel) => {

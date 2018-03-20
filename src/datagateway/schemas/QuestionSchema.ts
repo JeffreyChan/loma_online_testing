@@ -13,9 +13,10 @@ class QuestionSchema {
             tip: { type: String },
             correct: { type: Schema.Types.ObjectId, ref: 'QuestionOption' },
             options: [{ type: Schema.Types.ObjectId, required: true,  index: '2d', ref: 'QuestionOption' }],
-            random: { type: [Number], default:  () => { return [Math.random(), Math.random()] }, index: '2d' },
+            random: { type: [Number], index: '2d', default:  () => { return [Math.random(), Math.random()] }},
             create_date: { type: Date, default: Date.now }
         }, { collection: 'questions' });
+        //db.questions.createIndex({random:'2d'})
         return questionSchema;
     }
 }
